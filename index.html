@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>بوصلة الأثر - اختبار المسار</title>
+  <style>
+    /* =======================
+       الخط العربي - DIN Next Arabic
+       ======================= */
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/DINNextLTArabic-Regular.ttf') format('truetype'),
+           url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype'),
+           url('fonts/DIN NEXT™️ ARABIC HEAVY 3.otf') format('opentype'),
+           url('fonts/DIN NEXT™️ ARABIC ULTRALIGHT 2.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'DINNextArabic', Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: #ffffff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 10px;
+      width: 160px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a148c;
+      margin-top: 10px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 15px;
+      color: #444;
+    }
+
+    label {
+      display: block;
+      margin: 6px 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #4a148c;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .btn.secondary {
+      background-color: #777;
+    }
+
+    .question {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #fafafa;
+      border: 1px solid #eee;
+    }
+
+    .question p {
+      margin: 0 0 6px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .result-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      text-align: center;
+      font-size: 15px;
+      display: none;
+    }
+
+    .restart-btn {
+      display: none;
+      margin: 10px auto 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="form-container">
+
+  <!-- اللوجو -->
+  <img src="one-logo.png" alt="ون One" class="logo" />
+
+  <h1>🧭 بوصلة الأثر</h1>
+  <p style="text-align:center;">
+    سجّل بياناتك، جاوب على الأسئلة السبعة، ونعرّفك على المسار الأقرب لشخصيتك
+    مع حفظ جميع النتائج في ملف Excel (CSV) واحد.
+  </p>
+
+  <!-- بيانات المستخدم -->
+  <div id="user-form">
+    <label for="name">الاسم الكامل</label>
+    <input type="text" id="name" placeholder="اكتب اسمك هنا" />
+
+    <label for="email">الإيميل</label>
+    <input type="email" id="email" placeholder="example@email.com" />
+
+    <label for="phone">رقم الجوال</label>
+    <input type="tel" id="phone" placeholder="05xxxxxxxx" />
+
+    <button class="btn" onclick="startQuiz()">ابدأ الاختبار</button>
+  </div>
+
+  <!-- الأسئلة -->
+  <div id="quiz" style="display:none; margin-top:15px;">
+    <h3>الأسئلة</h3>
+
+    <div class="question"><p>1. لما تواجه تحدّي، وش أول شيء تسويه؟</p>
+      <label><input type="radio" name="q1" value="A"> تخطط وتجمع المعلومات</label>
+      <label><input type="radio" name="q1" value="B"> تبتكر فكرة جديدة</label>
+      <label><input type="radio" name="q1" value="C"> تتواصل مع الآخرين لحلّه</label>
+      <label><input type="radio" name="q1" value="D"> توثق كل شيء بخطوات واضحة</label>
+    </div>
+
+    <div class="question"><p>2. أكثر شي تحبّه في الشغل الجماعي؟</p>
+      <label><input type="radio" name="q2" value="A"> التنظيم والتوزيع</label>
+      <label><input type="radio" name="q2" value="B"> العصف الذهني والإبداع</label>
+      <label><input type="radio" name="q2" value="C"> الحماس والطاقة بين الفريق</label>
+      <label><input type="radio" name="q2" value="D"> التوثيق والنتائج النهائية</label>
+    </div>
+
+    <div class="question"><p>3. تفضّل تكون خلف الكواليس ولا في الواجهة؟</p>
+      <label><input type="radio" name="q3" value="A"> خلف الكواليس – أحب أضبط التفاصيل</label>
+      <label><input type="radio" name="q3" value="B"> في الواجهة – أحب أتكلم وأقنع</label>
+      <label><input type="radio" name="q3" value="C"> بين الاثنين – أوازن بين الفكرة والتنفيذ</label>
+      <label><input type="radio" name="q3" value="D"> ما يهم، المهم ينجح العمل</label>
+    </div>
+
+    <div class="question"><p>4. أكثر شي يجذبك في المشاريع الإعلامية؟</p>
+      <label><input type="radio" name="q4" value="A"> التخطيط والجدولة</label>
+      <label><input type="radio" name="q4" value="B"> الإبداع والهوية</label>
+      <label><input type="radio" name="q4" value="C"> العلاقات والتفاعل مع الجمهور</label>
+      <label><input type="radio" name="q4" value="D"> التوثيق والإخراج النهائي</label>
+    </div>
+
+    <div class="question"><p>5. لما تشوف فكرة جديدة، وش أول شي يخطر ببالك؟</p>
+      <label><input type="radio" name="q5" value="A"> كيف نقدر نطبّقها عمليًا؟</label>
+      <label><input type="radio" name="q5" value="B"> كيف نخليها أكثر إبداعًا؟</label>
+      <label><input type="radio" name="q5" value="C"> كيف نوصلها للناس؟</label>
+      <label><input type="radio" name="q5" value="D"> كيف نوثّقها أو نقيس أثرها؟</label>
+    </div>
+
+    <div class="question"><p>6. إذا انضمّيت لفريق “وَن”، أي دور يناسبك أكثر؟</p>
+      <label><input type="radio" name="q6" value="A"> منسّق المشروع – أحب التنظيم والمتابعة</label>
+      <label><input type="radio" name="q6" value="B"> المبدع – أصيغ الأفكار وأصمّم التجارب</label>
+      <label><input type="radio" name="q6" value="C"> المتحدث – أبرع في الإقناع والتمثيل والظهور</label>
+      <label><input type="radio" name="q6" value="D"> المنتج – أنفّذ بدقة وأوصل النتيجة النهائية</label>
+    </div>
+
+    <div class="question"><p>7. وش أكثر شعور تحب تحققه بعد إنجاز مشروع؟</p>
+      <label><input type="radio" name="q7" value="A"> إننا نفذنا الخطة بدقة</label>
+      <label><input type="radio" name="q7" value="B"> إننا قدمنا فكرة غير مسبوقة</label>
+      <label><input type="radio" name="q7" value="C"> إننا أثرنا في الناس</label>
+      <label><input type="radio" name="q7" value="D"> إننا وثقنا تجربة تستحق التكرار</label>
+    </div>
+
+    <button class="btn" onclick="submitQuiz()">إظهار النتيجة + تحديث ملف Excel</button>
+  </div>
+
+  <div id="result" class="result-box"></div>
+
+  <div class="restart-btn" id="restart-btn">
+    <button class="btn secondary" onclick="resetQuiz()">إعادة الاختبار من البداية</button>
+  </div>
+</div>
+
+<script>
+  const personaLabels = {
+    A: "Analysis Person",
+    B: "Creative Person",
+    C: "PR Person",
+    D: "Reliable Person"
+  };
+
+  const personaDescriptions = {
+    A: "يركز على التحليل والتخطيط والمنطق، ويحب التنظيم والدقة في العمل.",
+    B: "يولد الأفكار الجديدة ويتميّز بالخيال والإبداع، يرى العالم كمجال للابتكار.",
+    C: "يتقن التواصل والإقناع والتمثيل التفاعلي، ويحب أن يكون في قلب الحدث.",
+    D: "شخص موثوق يمكن الاعتماد عليه، يهتم بالتنفيذ والجودة والتوثيق للنهاية."
+  };
+
+  let finalPersona = null;
+  let finalPercentage = 0;
+  const submissions = [];
+
+  function startQuiz() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || !email || !phone) {
+      alert('من فضلك اكتب الاسم والإيميل ورقم الجوال قبل ما تبدأ.');
+      return;
+    }
+    document.getElementById('quiz').style.display = 'block';
+  }
+
+  function submitQuiz() {
+    const total = 7;
+    const counts = { A:0, B:0, C:0, D:0 };
+    const answers = {};
+
+    for (let i = 1; i <= total; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!selected) {
+        alert('من فضلك جاوب على جميع الأسئلة السبعة قبل إظهار النتيجة.');
+        return;
+      }
+      answers[`q${i}`] = selected.value;
+      counts[selected.value]++;
+    }
+
+    let max = -1, chosen = 'A';
+    ['A','B','C','D'].forEach(k => { if (counts[k] > max) { max = counts[k]; chosen = k; } });
+
+    finalPersona = chosen;
+    finalPercentage = Math.round((max / total) * 100);
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const trackName = personaLabels[chosen];
+    const desc = personaDescriptions[chosen];
+
+    const result = document.getElementById('result');
+    result.style.display = 'block';
+    result.innerHTML = `
+      المسار الأنسب لك: <strong>${trackName}</strong><br>
+      نسبة التوافق: <strong>${finalPercentage}%</strong><br>
+      <span style="font-size:13px; color:#555;">${desc}</span>
+    `;
+
+    document.getElementById('restart-btn').style.display = 'block';
+
+    submissions.push({ name, email, phone, ...answers, persona: trackName, percentage: finalPercentage });
+    downloadCSV();
+  }
+
+  function downloadCSV() {
+    if (submissions.length === 0) return;
+
+    const headers = ["Name","Email","Phone","Q1","Q2","Q3","Q4","Q5","Q6","Q7","Persona","Percentage"];
+    const rows = submissions.map(s => [s.name, s.email, s.phone, s.q1, s.q2, s.q3, s.q4, s.q5, s.q6, s.q7, s.persona, s.percentage + "%"]);
+    let csvContent = headers.join(",") + "\n";
+    rows.forEach(r => { csvContent += r.map(v => `"${(v || "").toString().replace(/"/g,'""')}"`).join(",") + "\n"; });
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", "impact_compass_results.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function resetQuiz() {
+    document.getElementById('name').value = "";
+    document.getElementById('email').value = "";
+    document.getElementById('phone').value = "";
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('restart-btn').style.display = 'none';
+    finalPersona = null;
+    finalPercentage = 0;
+  }
+</script>
+
+</body>
+</html>
