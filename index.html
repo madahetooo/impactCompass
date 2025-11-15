@@ -1,315 +1,526 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>بوصلة الأثر - اختبار المسار</title>
-  <style>
-    /* =======================
-       الخط العربي - DIN Next Arabic
-       ======================= */
-    @font-face {
-      font-family: 'DINNextArabic';
-      src: url('fonts/DINNextLTArabic-Regular.ttf') format('truetype'),
-           url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype'),
-           url('fonts/DIN NEXT™️ ARABIC HEAVY 3.otf') format('opentype'),
-           url('fonts/DIN NEXT™️ ARABIC ULTRALIGHT 2.otf') format('opentype');
-      font-weight: normal;
-      font-style: normal;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>بوصلة الأثر - Impact Compass</title>
 
-    body {
-      font-family: 'DINNextArabic', Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-    }
+<!-- SheetJS لقراءة Excel | jsPDF + html2canvas للشهادة -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: #ffffff;
-      padding: 20px 25px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+<style>
+  :root{
+    --primary:#5a2d91;       /* البنفسجي */
+    --primary-600:#4a1f7b;
+    --bg:#f6f5fa;
+    --text:#101318;
+  }
 
-    .logo {
-      display: block;
-      margin: 0 auto 10px;
-      width: 160px;
-    }
+  /* ضع ملفات الخط داخل مجلد fonts/ بجوار الصفحة */
+  @font-face{
+    font-family:'DINNextArabic';
+    src:
+      url('fonts/DINNextLTArabic-Regular.ttf') format('truetype'),
+      url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype'),
+      url('fonts/DIN NEXT™️ ARABIC HEAVY 3.otf') format('opentype'),
+      url('fonts/DIN NEXT™️ ARABIC ULTRALIGHT 2.otf') format('opentype');
+    font-weight:normal; font-style:normal; font-display:swap;
+  }
 
-    h1 {
-      text-align: center;
-      color: #4a148c;
-      margin-top: 10px;
-    }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'DINNextArabic', Arial, sans-serif; line-height:1.7;
+  }
 
-    p {
-      line-height: 1.7;
-      font-size: 15px;
-      color: #444;
-    }
+  .topbar{
+    background:var(--primary); color:#fff; padding:10px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logos{display:flex; align-items:center; gap:14px}
+  .logos img{height:40px; object-fit:contain}
 
-    label {
-      display: block;
-      margin: 6px 0;
-      font-size: 14px;
-      cursor: pointer;
-    }
+  .lang-toggle{
+    background:#fff; color:var(--primary); border:0; border-radius:10px;
+    padding:8px 12px; cursor:pointer; font-weight:700;
+  }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
+  .container{
+    max-width:760px; margin:24px auto; background:#fff; border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.06); padding:22px;
+  }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 18px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      background-color: #4a148c;
-      color: #fff;
-      font-weight: bold;
-    }
+  h1{margin:8px 0 2px; color:var(--primary); text-align:center}
+  .subtitle{text-align:center; color:#555; margin-bottom:14px}
 
-    .btn.secondary {
-      background-color: #777;
-    }
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  input[type="text"],input[type="email"],input[type="tel"]{
+    width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:10px; font-size:15px;
+  }
 
-    .question {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 8px;
-      background: #fafafa;
-      border: 1px solid #eee;
-    }
+  .progress{margin:16px 0; height:10px; background:#eee; border-radius:999px; overflow:hidden}
+  .progress>span{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--primary),var(--primary-600)); transition:width 300ms}
 
-    .question p {
-      margin: 0 0 6px;
-      font-weight: 600;
-      color: #333;
-    }
+  .card{background:#faf9ff; border:1px solid #eee; border-radius:12px; padding:16px; margin-top:10px}
+  .q-title{margin:0 0 10px; font-weight:800; color:#272a31}
+  label.option{display:block; padding:10px 12px; border-radius:10px; border:1px solid #e8e8ef; margin:8px 0; cursor:pointer}
+  label.option:hover{border-color:var(--primary)}
 
-    .result-box {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #e8f5e9;
-      border: 1px solid #c8e6c9;
-      text-align: center;
-      font-size: 15px;
-      display: none;
-    }
+  .actions{display:flex; gap:10px; justify-content:space-between; margin-top:12px}
+  .btn{background:var(--primary); color:#fff; border:0; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:800}
+  .btn:disabled{opacity:.4; cursor:not-allowed}
+  .btn.secondary{background:#7e7e86}
+  .btn.ghost{background:#fff; color:var(--primary); border:2px solid var(--primary)}
 
-    .restart-btn {
-      display: none;
-      margin: 10px auto 0;
-      text-align: center;
-    }
-  </style>
+  .result{display:none; margin-top:14px; padding:14px; border-radius:12px; background:#f0ecfb; border:1px solid #e0d8f7; text-align:center}
+
+  .footer-note{text-align:center; color:#8c8c93; margin-top:10px; font-size:13px}
+
+  /* شهادة */
+  .cert-wrap{width:100%; display:none; justify-content:center; margin-top:16px}
+  .certificate{
+    width:100%; max-width:800px; aspect-ratio:1.414; /* A4 تقريبًا */
+    border:6px solid var(--primary); border-radius:18px; background:#fff;
+    display:flex; flex-direction:column; justify-content:center; align-items:center; gap:18px; padding:20px;
+  }
+  .cert-logos{display:flex; gap:18px; align-items:center}
+  .cert-logos img{height:64px}
+  .cert-name{font-size:42px; font-weight:900; color:var(--primary); text-align:center; word-break:break-word}
+
+  .rtl{direction:rtl}
+  .ltr{direction:ltr}
+</style>
 </head>
 <body>
 
-<div class="container" id="form-container">
+<!-- الشريط العلوي -->
+<header class="topbar">
+  <div class="logos">
+    <!-- ضع one-logo.png و misklogo.png بجوار الصفحة -->
+    <img src="one-logo.png" alt="One Logo" />
+    <img src="misklogo.png" alt="Misk Logo" />
+  </div>
+  <button id="langBtn" class="lang-toggle">English</button>
+</header>
 
-  <!-- اللوجو -->
-  <img src="one-logo.png" alt="ون One" class="logo" />
+<main class="container">
+  <h1 id="title">🧭 بوصلة الأثر</h1>
+  <div id="subtitle" class="subtitle">سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.</div>
 
-  <h1>🧭 بوصلة الأثر</h1>
-  <p style="text-align:center;">
-    سجّل بياناتك، جاوب على الأسئلة السبعة، ونعرّفك على المسار الأقرب لشخصيتك
-    مع حفظ جميع النتائج في ملف Excel (CSV) واحد.
-  </p>
+  <!-- صفحة البيانات -->
+  <section id="userForm">
+    <div class="grid-2">
+      <div>
+        <label id="lblName" for="name">الاسم الكامل</label>
+        <input type="text" id="name" placeholder="اكتب اسمك هنا" />
+      </div>
+      <div>
+        <label id="lblEmail" for="email">الإيميل</label>
+        <input type="email" id="email" placeholder="example@email.com" />
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label id="lblPhone" for="phone">رقم الجوال</label>
+      <input type="tel" id="phone" placeholder="05xxxxxxxx" />
+    </div>
+    <div class="actions" style="justify-content:flex-end; margin-top:8px">
+      <button class="btn" id="startBtn">ابدأ الاختبار</button>
+    </div>
+  </section>
 
-  <!-- بيانات المستخدم -->
-  <div id="user-form">
-    <label for="name">الاسم الكامل</label>
-    <input type="text" id="name" placeholder="اكتب اسمك هنا" />
-
-    <label for="email">الإيميل</label>
-    <input type="email" id="email" placeholder="example@email.com" />
-
-    <label for="phone">رقم الجوال</label>
-    <input type="tel" id="phone" placeholder="05xxxxxxxx" />
-
-    <button class="btn" onclick="startQuiz()">ابدأ الاختبار</button>
+  <!-- شريط التقدم -->
+  <div id="progressWrap" style="display:none">
+    <div class="progress"><span id="progressBar"></span></div>
+    <div id="stepText" style="text-align:center; color:#666; font-size:14px"></div>
   </div>
 
-  <!-- الأسئلة -->
-  <div id="quiz" style="display:none; margin-top:15px;">
-    <h3>الأسئلة</h3>
-
-    <div class="question"><p>1. لما تواجه تحدّي، وش أول شيء تسويه؟</p>
-      <label><input type="radio" name="q1" value="A"> تخطط وتجمع المعلومات</label>
-      <label><input type="radio" name="q1" value="B"> تبتكر فكرة جديدة</label>
-      <label><input type="radio" name="q1" value="C"> تتواصل مع الآخرين لحلّه</label>
-      <label><input type="radio" name="q1" value="D"> توثق كل شيء بخطوات واضحة</label>
+  <!-- منطقة السؤال -->
+  <section id="questionArea" style="display:none">
+    <div class="card">
+      <p class="q-title" id="qTitle">سؤال 1</p>
+      <div id="options"></div>
+      <div class="actions">
+        <button class="btn ghost" id="prevBtn">⟵ السابق</button>
+        <div style="display:flex; gap:8px">
+          <button class="btn secondary" id="saveBtn">حفظ & التالي</button>
+          <button class="btn" id="nextBtn">التالي ⟶</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="question"><p>2. أكثر شي تحبّه في الشغل الجماعي؟</p>
-      <label><input type="radio" name="q2" value="A"> التنظيم والتوزيع</label>
-      <label><input type="radio" name="q2" value="B"> العصف الذهني والإبداع</label>
-      <label><input type="radio" name="q2" value="C"> الحماس والطاقة بين الفريق</label>
-      <label><input type="radio" name="q2" value="D"> التوثيق والنتائج النهائية</label>
-    </div>
+  <!-- النتيجة -->
+  <section id="resultBox" class="result"></section>
 
-    <div class="question"><p>3. تفضّل تكون خلف الكواليس ولا في الواجهة؟</p>
-      <label><input type="radio" name="q3" value="A"> خلف الكواليس – أحب أضبط التفاصيل</label>
-      <label><input type="radio" name="q3" value="B"> في الواجهة – أحب أتكلم وأقنع</label>
-      <label><input type="radio" name="q3" value="C"> بين الاثنين – أوازن بين الفكرة والتنفيذ</label>
-      <label><input type="radio" name="q3" value="D"> ما يهم، المهم ينجح العمل</label>
-    </div>
-
-    <div class="question"><p>4. أكثر شي يجذبك في المشاريع الإعلامية؟</p>
-      <label><input type="radio" name="q4" value="A"> التخطيط والجدولة</label>
-      <label><input type="radio" name="q4" value="B"> الإبداع والهوية</label>
-      <label><input type="radio" name="q4" value="C"> العلاقات والتفاعل مع الجمهور</label>
-      <label><input type="radio" name="q4" value="D"> التوثيق والإخراج النهائي</label>
-    </div>
-
-    <div class="question"><p>5. لما تشوف فكرة جديدة، وش أول شي يخطر ببالك؟</p>
-      <label><input type="radio" name="q5" value="A"> كيف نقدر نطبّقها عمليًا؟</label>
-      <label><input type="radio" name="q5" value="B"> كيف نخليها أكثر إبداعًا؟</label>
-      <label><input type="radio" name="q5" value="C"> كيف نوصلها للناس؟</label>
-      <label><input type="radio" name="q5" value="D"> كيف نوثّقها أو نقيس أثرها؟</label>
-    </div>
-
-    <div class="question"><p>6. إذا انضمّيت لفريق “وَن”، أي دور يناسبك أكثر؟</p>
-      <label><input type="radio" name="q6" value="A"> منسّق المشروع – أحب التنظيم والمتابعة</label>
-      <label><input type="radio" name="q6" value="B"> المبدع – أصيغ الأفكار وأصمّم التجارب</label>
-      <label><input type="radio" name="q6" value="C"> المتحدث – أبرع في الإقناع والتمثيل والظهور</label>
-      <label><input type="radio" name="q6" value="D"> المنتج – أنفّذ بدقة وأوصل النتيجة النهائية</label>
-    </div>
-
-    <div class="question"><p>7. وش أكثر شعور تحب تحققه بعد إنجاز مشروع؟</p>
-      <label><input type="radio" name="q7" value="A"> إننا نفذنا الخطة بدقة</label>
-      <label><input type="radio" name="q7" value="B"> إننا قدمنا فكرة غير مسبوقة</label>
-      <label><input type="radio" name="q7" value="C"> إننا أثرنا في الناس</label>
-      <label><input type="radio" name="q7" value="D"> إننا وثقنا تجربة تستحق التكرار</label>
-    </div>
-
-    <button class="btn" onclick="submitQuiz()">إظهار النتيجة + تحديث ملف Excel</button>
+  <!-- أزرار ما بعد النتيجة -->
+  <div id="postActions" class="actions" style="display:none; justify-content:center">
+    <button class="btn" id="downloadCSV">تحميل ملف النتائج CSV</button>
+    <button class="btn secondary" id="restartBtn">إعادة الاختبار</button>
+    <button class="btn ghost" id="certBtn">طباعة شهادة بالاسم</button>
   </div>
 
-  <div id="result" class="result-box"></div>
-
-  <div class="restart-btn" id="restart-btn">
-    <button class="btn secondary" onclick="resetQuiz()">إعادة الاختبار من البداية</button>
+  <!-- شهادة HTML (للتصدير PDF) -->
+  <div id="certWrap" class="cert-wrap">
+    <div id="certificate" class="certificate">
+      <div class="cert-logos">
+        <!-- مهم: crossOrigin يحسّن التقاط الصور مع html2canvas -->
+        <img src="one-logo.png" alt="One Logo" crossOrigin="anonymous" />
+        <img src="misklogo.png" alt="Misk Logo" crossOrigin="anonymous" />
+      </div>
+      <div id="certName" class="cert-name">اسم المُشارك</div>
+    </div>
   </div>
-</div>
+
+  <div class="footer-note">© ون | Misk — تجربة بوصلة الأثر</div>
+</main>
 
 <script>
-  const personaLabels = {
-    A: "Analysis Person",
-    B: "Creative Person",
-    C: "PR Person",
-    D: "Reliable Person"
-  };
-
-  const personaDescriptions = {
-    A: "يركز على التحليل والتخطيط والمنطق، ويحب التنظيم والدقة في العمل.",
-    B: "يولد الأفكار الجديدة ويتميّز بالخيال والإبداع، يرى العالم كمجال للابتكار.",
-    C: "يتقن التواصل والإقناع والتمثيل التفاعلي، ويحب أن يكون في قلب الحدث.",
-    D: "شخص موثوق يمكن الاعتماد عليه، يهتم بالتنفيذ والجودة والتوثيق للنهاية."
-  };
-
-  let finalPersona = null;
-  let finalPercentage = 0;
-  const submissions = [];
-
-  function startQuiz() {
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-
-    if (!name || !email || !phone) {
-      alert('من فضلك اكتب الاسم والإيميل ورقم الجوال قبل ما تبدأ.');
-      return;
-    }
-    document.getElementById('quiz').style.display = 'block';
+/* =================== اللغة =================== */
+const STRINGS = {
+  ar:{
+    title:"🧭 بوصلة الأثر",
+    subtitle:"سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.",
+    lblName:"الاسم الكامل",
+    lblEmail:"الإيميل",
+    lblPhone:"رقم الجوال",
+    start:"ابدأ الاختبار",
+    prev:"⟵ السابق",
+    saveNext:"حفظ & التالي",
+    next:"التالي ⟶",
+    step:(i,n)=>`السؤال ${i} من ${n}`,
+    mustUser:"من فضلك اكتب الاسم والإيميل ورقم الجوال أولًا.",
+    mustAnswer:"اختر إجابة قبل الانتقال للسؤال التالي.",
+    result:(persona,percent)=>`المسار الأقرب لك: <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
+    downloadCSV:"تحميل ملف النتائج CSV",
+    restart:"إعادة الاختبار",
+    cert:"طباعة شهادة بالاسم",
+    langBtn:"English",
+    personas:{Analysis:"Analysis Person", Creative:"Creative Person", PR:"PR Person", Reliable:"Reliable Person"}
+  },
+  en:{
+    title:"🧭 Impact Compass",
+    subtitle:"Fill your details, then answer questions one by one.",
+    lblName:"Full Name",
+    lblEmail:"Email",
+    lblPhone:"Phone",
+    start:"Start Quiz",
+    prev:"⟵ Previous",
+    saveNext:"Save & Next",
+    next:"Next ⟶",
+    step:(i,n)=>`Question ${i} of ${n}`,
+    mustUser:"Please enter name, email, and phone first.",
+    mustAnswer:"Please select an answer before moving on.",
+    result:(persona,percent)=>`Your best-fit track: <b>${persona}</b> — Match: <b>${percent}%</b>`,
+    downloadCSV:"Download CSV",
+    restart:"Restart",
+    cert:"Print name certificate",
+    langBtn:"العربية",
+    personas:{Analysis:"Analysis Person", Creative:"Creative Person", PR:"PR Person", Reliable:"Reliable Person"}
   }
+};
+let LANG = localStorage.getItem('impact_lang') || 'ar';
+function applyLang(){
+  const S = STRINGS[LANG];
+  document.documentElement.lang = LANG;
+  document.documentElement.classList.toggle('rtl', LANG==='ar');
+  document.documentElement.classList.toggle('ltr', LANG==='en');
+  document.getElementById('title').innerText = S.title;
+  document.getElementById('subtitle').innerText = S.subtitle;
+  document.getElementById('lblName').innerText = S.lblName;
+  document.getElementById('lblEmail').innerText = S.lblEmail;
+  document.getElementById('lblPhone').innerText = S.lblPhone;
+  document.getElementById('startBtn').innerText = S.start;
+  document.getElementById('prevBtn').innerText = S.prev;
+  document.getElementById('saveBtn').innerText = S.saveNext;
+  document.getElementById('nextBtn').innerText = S.next;
+  document.getElementById('downloadCSV').innerText = S.downloadCSV;
+  document.getElementById('restartBtn').innerText = S.restart;
+  document.getElementById('certBtn').innerText = S.cert;
+  document.getElementById('langBtn').innerText = S.langBtn;
+}
+document.getElementById('langBtn').addEventListener('click', ()=>{
+  LANG = (LANG==='ar')? 'en':'ar';
+  localStorage.setItem('impact_lang', LANG);
+  applyLang();
+  renderQuestion();
+});
 
-  function submitQuiz() {
-    const total = 7;
-    const counts = { A:0, B:0, C:0, D:0 };
-    const answers = {};
+/* ======= تحميل الأسئلة من Excel إن وُجد ======= */
+/* توقّعات الأعمدة:
+   Question_AR, A_AR, B_AR, C_AR, D_AR,
+   Question_EN, A_EN, B_EN, C_EN, D_EN,
+   Persona_A, Persona_B, Persona_C, Persona_D,
+   Weight_A, Weight_B, Weight_C, Weight_D
+*/
+let QUESTIONS = [];
+let ANSWERS = {};
+let personaScores = {Analysis:0, Creative:0, PR:0, Reliable:0};
+let currentIndex = 0;
+let submissions = [];
 
-    for (let i = 1; i <= total; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (!selected) {
-        alert('من فضلك جاوب على جميع الأسئلة السبعة قبل إظهار النتيجة.');
-        return;
+async function tryLoadExcel(){
+  try{
+    const res = await fetch('impact-mapping.xlsx', {cache:'no-store'});
+    if(!res.ok) throw new Error('no xlsx');
+    const buf = await res.arrayBuffer();
+    const wb = XLSX.read(buf,{type:'array'});
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet,{defval:''});
+
+    QUESTIONS = rows.map((r,idx)=>({
+      id: idx+1,
+      ar: { q:r.Question_AR || `سؤال ${idx+1}`, options:{A:r.A_AR,B:r.B_AR,C:r.C_AR,D:r.D_AR} },
+      en: { q:r.Question_EN || `Question ${idx+1}`, options:{A:r.A_EN,B:r.B_EN,C:r.C_EN,D:r.D_EN} },
+      mapping: {
+        A:{persona:normPersona(r.Persona_A), weight:num(r.Weight_A,1)},
+        B:{persona:normPersona(r.Persona_B), weight:num(r.Weight_B,1)},
+        C:{persona:normPersona(r.Persona_C), weight:num(r.Weight_C,1)},
+        D:{persona:normPersona(r.Persona_D), weight:num(r.Weight_D,1)},
       }
-      answers[`q${i}`] = selected.value;
-      counts[selected.value]++;
+    })).filter(q => q.ar.options.A || q.en.options.A);
+  }catch(e){
+    QUESTIONS = fallbackQuestions();
+  }
+}
+function normPersona(p){
+  if(!p) return 'Reliable';
+  const s = (''+p).toLowerCase();
+  if(s.includes('anal')) return 'Analysis';
+  if(s.includes('creat')) return 'Creative';
+  if(s.includes('pr')) return 'PR';
+  if(s.includes('reli')) return 'Reliable';
+  return 'Reliable';
+}
+function num(v,d=1){ const n=parseFloat(v); return Number.isFinite(n)? n:d; }
+
+function fallbackQuestions(){
+  const base=[ // نفس أسئلة fallback السبعة
+    {arQ:'لما تواجه تحدّي، وش أول شيء تسويه؟', arA:'تخطط وتجمع المعلومات', arB:'تبتكر فكرة جديدة', arC:'تتواصل مع الآخرين لحلّه', arD:'توثق كل شيء بخطوات واضحة',
+     enQ:'When you face a challenge, what do you do first?', enA:'Plan & gather info', enB:'Come up with a new idea', enC:'Talk to others to solve it', enD:'Document clear steps',
+     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
+    {arQ:'أكثر شي تحبّه في الشغل الجماعي؟', arA:'التنظيم والتوزيع', arB:'العصف الذهني والإبداع', arC:'الحماس والطاقة بين الفريق', arD:'التوثيق والنتائج النهائية',
+     enQ:'What do you like most in teamwork?', enA:'Organizing & assigning', enB:'Brainstorming & creativity', enC:'Team energy', enD:'Documentation & outcomes',
+     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
+    {arQ:'تفضّل تكون خلف الكواليس ولا في الواجهة؟', arA:'خلف الكواليس – أحب أضبط التفاصيل', arB:'في الواجهة – أحب أتكلم وأقنع', arC:'بين الاثنين', arD:'المهم ينجح العمل',
+     enQ:'Backstage or frontstage?', enA:'Backstage—polish details', enB:'Frontstage—speak & persuade', enC:'Balance both', enD:'Whatever gets it done',
+     map:{A:'Analysis',B:'PR',C:'Creative',D:'Reliable'}},
+    {arQ:'أكثر شي يجذبك في المشاريع الإعلامية؟', arA:'التخطيط والجدولة', arB:'الإبداع والهوية', arC:'العلاقات والتفاعل مع الجمهور', arD:'التوثيق والإخراج',
+     enQ:'What attracts you in media projects?', enA:'Planning & scheduling', enB:'Creative identity', enC:'Public engagement', enD:'Documentation & delivery',
+     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
+    {arQ:'لما تشوف فكرة جديدة، وش أول شي يخطر ببالك؟', arA:'كيف نطبّقها عمليًا؟', arB:'كيف نخليها أبدع؟', arC:'كيف نوصلها للناس؟', arD:'كيف نوثّقها أو نقيس أثرها؟',
+     enQ:'See a new idea—what’s first?', enA:'How to execute it?', enB:'How to make it more creative?', enC:'How to reach people?', enD:'How to document/measure?',
+     map:{A:'Reliable',B:'Creative',C:'PR',D:'Analysis'}},
+    {arQ:'لو انضمّيت لفريق "وَن"، أي دور يناسبك؟', arA:'منسّق المشروع', arB:'المبدع', arC:'المتحدث', arD:'المنتج',
+     enQ:'If you join Team One, best role?', enA:'Project coordinator', enB:'Creative maker', enC:'Spokesperson', enD:'Producer',
+     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
+    {arQ:'وش أكثر شعور تحب تحققه بعد إنجاز مشروع؟', arA:'نفذنا الخطة بدقة', arB:'قدّمنا فكرة غير مسبوقة', arC:'أثرنا في الناس', arD:'وثقنا تجربة تستحق التكرار',
+     enQ:'Best feeling after a project?', enA:'Plan executed perfectly', enB:'Novel idea delivered', enC:'People were impacted', enD:'Documented for repeatability',
+     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}}
+  ];
+  return base.map((b,i)=>({
+    id:i+1,
+    ar:{q:b.arQ, options:{A:b.arA,B:b.arB,C:b.arC,D:b.arD}},
+    en:{q:b.enQ, options:{A:b.enA,B:b.enB,C:b.enC,D:b.enD}},
+    mapping:{
+      A:{persona:b.map.A, weight:1},
+      B:{persona:b.map.B, weight:1},
+      C:{persona:b.map.C, weight:1},
+      D:{persona:b.map.D, weight:1}
     }
+  }));
+}
 
-    let max = -1, chosen = 'A';
-    ['A','B','C','D'].forEach(k => { if (counts[k] > max) { max = counts[k]; chosen = k; } });
+/* =================== منطق UI =================== */
+const qArea=document.getElementById('questionArea');
+const qTitle=document.getElementById('qTitle');
+const optionsWrap=document.getElementById('options');
+const progressWrap=document.getElementById('progressWrap');
+const progressBar=document.getElementById('progressBar');
+const stepText=document.getElementById('stepText');
 
-    finalPersona = chosen;
-    finalPercentage = Math.round((max / total) * 100);
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  const name=val('name'), email=val('email'), phone=val('phone');
+  if(!name || !email || !phone){ alert(STRINGS[LANG].mustUser); return; }
+  document.getElementById('userForm').style.display='none';
+  qArea.style.display='block';
+  progressWrap.style.display='block';
+  renderQuestion();
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(currentIndex>0){ currentIndex--; renderQuestion(); }
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  if(!ensureAnswered()) return;
+  if(currentIndex<QUESTIONS.length-1){ currentIndex++; renderQuestion(); }
+  else { finish(); }
+});
+document.getElementById('saveBtn').addEventListener('click', ()=>{
+  if(!ensureAnswered()) return;
+  if(currentIndex<QUESTIONS.length-1){ currentIndex++; renderQuestion(); }
+  else { finish(); }
+});
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const trackName = personaLabels[chosen];
-    const desc = personaDescriptions[chosen];
+function val(id){ return document.getElementById(id).value.trim(); }
 
-    const result = document.getElementById('result');
-    result.style.display = 'block';
-    result.innerHTML = `
-      المسار الأنسب لك: <strong>${trackName}</strong><br>
-      نسبة التوافق: <strong>${finalPercentage}%</strong><br>
-      <span style="font-size:13px; color:#555;">${desc}</span>
-    `;
+function renderQuestion(){
+  applyLang();
+  if(!QUESTIONS.length) return;
+  const q=QUESTIONS[currentIndex];
+  const S=STRINGS[LANG];
+  const text=(LANG==='ar')? q.ar.q : q.en.q;
+  const ops =(LANG==='ar')? q.ar.options : q.en.options;
 
-    document.getElementById('restart-btn').style.display = 'block';
+  qTitle.textContent = text || (LANG==='ar'? `سؤال ${q.id}` : `Question ${q.id}`);
+  optionsWrap.innerHTML='';
+  ['A','B','C','D'].forEach(k=>{
+    if(!ops[k]) return;
+    const id=`q_${q.id}_${k}`;
+    const lab=document.createElement('label');
+    lab.className='option';
+    lab.htmlFor=id;
+    lab.innerHTML=`<input type="radio" name="q${q.id}" id="${id}" value="${k}" ${ANSWERS[q.id]===k?'checked':''}/> ${ops[k]}`;
+    optionsWrap.appendChild(lab);
+  });
 
-    submissions.push({ name, email, phone, ...answers, persona: trackName, percentage: finalPercentage });
-    downloadCSV();
+  const pct=Math.round((currentIndex/QUESTIONS.length)*100);
+  progressBar.style.width=pct+'%';
+  stepText.textContent=S.step(currentIndex+1, QUESTIONS.length);
+
+  document.getElementById('prevBtn').disabled=(currentIndex===0);
+  document.getElementById('nextBtn').textContent=(currentIndex===QUESTIONS.length-1)? (LANG==='ar'?'إنهاء':'Finish') : S.next;
+  document.getElementById('saveBtn').textContent=(currentIndex===QUESTIONS.length-1)? (LANG==='ar'?'حفظ & إنهاء':'Save & Finish') : S.saveNext;
+}
+
+function ensureAnswered(){
+  const q=QUESTIONS[currentIndex];
+  const selected=document.querySelector(`input[name="q${q.id}"]:checked`);
+  if(!selected){ alert(STRINGS[LANG].mustAnswer); return false; }
+  ANSWERS[q.id]=selected.value;
+  return true;
+}
+
+function computeScores(){
+  personaScores={Analysis:0, Creative:0, PR:0, Reliable:0};
+  let total=0;
+  QUESTIONS.forEach(q=>{
+    const a=ANSWERS[q.id]; if(!a) return;
+    const m=q.mapping[a] || {persona:'Reliable', weight:1};
+    personaScores[m.persona]+=m.weight; total+=m.weight;
+  });
+  return total||1;
+}
+
+function finish(){
+  const total=computeScores();
+  let winner='Reliable', max=-1;
+  for(const k in personaScores){ if(personaScores[k]>max){ max=personaScores[k]; winner=k; } }
+  const percent=Math.round((max/total)*100);
+
+  const S=STRINGS[LANG];
+  const res=document.getElementById('resultBox');
+  res.innerHTML=S.result(S.personas[winner], percent);
+  res.style.display='block';
+  document.getElementById('postActions').style.display='flex';
+
+  document.getElementById('certName').textContent=val('name');
+  document.getElementById('certWrap').style.display='flex';
+
+  const row={
+    name:val('name'), email:val('email'), phone:val('phone'),
+    persona:winner, percentage:percent,
+    answers:QUESTIONS.map(q=>ANSWERS[q.id]||'')
+  };
+  submissions.push(row);
+}
+
+/* =================== CSV =================== */
+document.getElementById('downloadCSV').addEventListener('click', ()=>{
+  if(!submissions.length) return;
+  const qCols=QUESTIONS.map((q,i)=>`Q${i+1}`);
+  const headers=["Name","Email","Phone",...qCols,"Persona","Percentage"];
+  const rows=submissions.map(s=>[s.name,s.email,s.phone,...s.answers,s.persona, s.percentage+"%"]);
+
+  let csv=headers.join(",")+"\n";
+  rows.forEach(r=>{ csv += r.map(v=>`"${(v??'').toString().replace(/"/g,'""')}"`).join(",")+"\n"; });
+
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download="impact_compass_results.csv";
+  document.body.appendChild(a); a.click(); a.remove();
+});
+
+/* ============== إعادة الاختبار (ترجع لأول صفحة فقط) ============== */
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  ANSWERS={};
+  personaScores={Analysis:0, Creative:0, PR:0, Reliable:0};
+  currentIndex=0;
+
+  // اخفِ كل أجزاء الاختبار/النتيجة/الشهادة
+  document.getElementById('resultBox').style.display='none';
+  document.getElementById('postActions').style.display='none';
+  document.getElementById('certWrap').style.display='none';
+  document.getElementById('questionArea').style.display='none';
+  document.getElementById('progressWrap').style.display='none';
+
+  // أظهر صفحة البيانات فقط
+  document.getElementById('userForm').style.display='block';
+
+  // نظّف الحقول
+  document.getElementById('name').value='';
+  document.getElementById('email').value='';
+  document.getElementById('phone').value='';
+
+  // رجوع لأعلى الصفحة
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ============== طباعة/تحميل الشهادة PDF (مع fallback PNG) ============== */
+document.getElementById('certBtn').addEventListener('click', async ()=>{
+  const cert=document.getElementById('certificate');
+  const fileName=(document.getElementById('name').value.trim() || 'certificate') + '.pdf';
+
+  try{
+    // انتظر تحميل شعارات الشهادة
+    const imgs=cert.querySelectorAll('img');
+    await Promise.all(Array.from(imgs).map(img=>{
+      if(img.complete) return Promise.resolve();
+      return new Promise(res=>{ img.onload=img.onerror=res; });
+    }));
+
+    const canvas=await html2canvas(cert,{
+      scale:2, useCORS:true, allowTaint:true, backgroundColor:'#ffffff', logging:false
+    });
+    const imgData=canvas.toDataURL('image/png');
+
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
+    const pageW=pdf.internal.pageSize.getWidth();
+    const pageH=pdf.internal.pageSize.getHeight();
+
+    const ratio=Math.min(pageW*0.9/canvas.width, pageH*0.9/canvas.height);
+    const w=canvas.width*ratio, h=canvas.height*ratio;
+    const x=(pageW-w)/2, y=(pageH-h)/2;
+
+    pdf.addImage(imgData,'PNG',x,y,w,h);
+    pdf.save(fileName);
+  }catch(err){
+    console.error('PDF failed, falling back to PNG:', err);
+    const pngCanvas=await html2canvas(cert,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#ffffff'});
+    const a=document.createElement('a');
+    a.href=pngCanvas.toDataURL('image/png');
+    a.download=(document.getElementById('name').value.trim() || 'certificate') + '.png';
+    document.body.appendChild(a); a.click(); a.remove();
   }
+});
 
-  function downloadCSV() {
-    if (submissions.length === 0) return;
-
-    const headers = ["Name","Email","Phone","Q1","Q2","Q3","Q4","Q5","Q6","Q7","Persona","Percentage"];
-    const rows = submissions.map(s => [s.name, s.email, s.phone, s.q1, s.q2, s.q3, s.q4, s.q5, s.q6, s.q7, s.persona, s.percentage + "%"]);
-    let csvContent = headers.join(",") + "\n";
-    rows.forEach(r => { csvContent += r.map(v => `"${(v || "").toString().replace(/"/g,'""')}"`).join(",") + "\n"; });
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute("download", "impact_compass_results.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  function resetQuiz() {
-    document.getElementById('name').value = "";
-    document.getElementById('email').value = "";
-    document.getElementById('phone').value = "";
-    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-    document.getElementById('quiz').style.display = 'none';
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('restart-btn').style.display = 'none';
-    finalPersona = null;
-    finalPercentage = 0;
-  }
+/* =================== Boot =================== */
+(async function init(){
+  applyLang();
+  await tryLoadExcel();   // يحمل impact-mapping.xlsx لو موجود وإلا يستخدم fallback
+})();
 </script>
-
 </body>
 </html>
