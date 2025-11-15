@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>بوصلة الأثر - Impact Compass</title>
 
-<!-- SheetJS لقراءة Excel | jsPDF + html2canvas للشهادة -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- فقط لمولد الشهادة -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
@@ -18,14 +17,11 @@
     --text:#101318;
   }
 
-  /* ضع ملفات الخط داخل مجلد fonts/ بجوار الصفحة */
+  /* (اختياري) ضع خطوط DIN في مجلد fonts/ */
   @font-face{
     font-family:'DINNextArabic';
     src:
-      url('fonts/DINNextLTArabic-Regular.ttf') format('truetype'),
-      url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype'),
-      url('fonts/DIN NEXT™️ ARABIC HEAVY 3.otf') format('opentype'),
-      url('fonts/DIN NEXT™️ ARABIC ULTRALIGHT 2.otf') format('opentype');
+      url('fonts/DINNextLTArabic-Regular.ttf') format('truetype');
     font-weight:normal; font-style:normal; font-display:swap;
   }
 
@@ -165,7 +161,6 @@
   <div id="certWrap" class="cert-wrap">
     <div id="certificate" class="certificate">
       <div class="cert-logos">
-        <!-- مهم: crossOrigin يحسّن التقاط الصور مع html2canvas -->
         <img src="one-logo.png" alt="One Logo" crossOrigin="anonymous" />
         <img src="misklogo.png" alt="Misk Logo" crossOrigin="anonymous" />
       </div>
@@ -175,6 +170,201 @@
 
   <div class="footer-note">© ون | Misk — تجربة بوصلة الأثر</div>
 </main>
+
+<!-- === الأسئلة المدمجة كـ JSON داخل الصفحة (يمكن تعديلها بحرية) === -->
+<script id="embedded-questions" type="application/json">
+[
+  {
+    "id": 1,
+    "ar": {
+      "q": "لما تواجه تحدّي، وش أول شيء تسويه؟",
+      "options": {
+        "A": "تخطط وتجمع المعلومات",
+        "B": "تبتكر فكرة جديدة",
+        "C": "تتواصل مع الآخرين لحلّه",
+        "D": "توثق كل شيء بخطوات واضحة"
+      }
+    },
+    "en": {
+      "q": "When you face a challenge, what do you do first?",
+      "options": {
+        "A": "Plan & gather info",
+        "B": "Create a new idea",
+        "C": "Talk to others to solve it",
+        "D": "Document clear steps"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  },
+  {
+    "id": 2,
+    "ar": {
+      "q": "أكثر شي تحبّه في الشغل الجماعي؟",
+      "options": {
+        "A": "التنظيم والتوزيع",
+        "B": "العصف الذهني والإبداع",
+        "C": "الحماس والطاقة بين الفريق",
+        "D": "التوثيق والنتائج النهائية"
+      }
+    },
+    "en": {
+      "q": "What do you like most in teamwork?",
+      "options": {
+        "A": "Organizing & assigning",
+        "B": "Brainstorming & creativity",
+        "C": "Team energy",
+        "D": "Documentation & outcomes"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  },
+  {
+    "id": 3,
+    "ar": {
+      "q": "تفضّل تكون خلف الكواليس ولا في الواجهة؟",
+      "options": {
+        "A": "خلف الكواليس – أحب أضبط التفاصيل",
+        "B": "في الواجهة – أحب أتكلم وأقنع",
+        "C": "بين الاثنين – أوازن بين الفكرة والتنفيذ",
+        "D": "ما يهم، المهم ينجح العمل"
+      }
+    },
+    "en": {
+      "q": "Backstage or frontstage?",
+      "options": {
+        "A": "Backstage—polish details",
+        "B": "Frontstage—speak & persuade",
+        "C": "Balance both",
+        "D": "Whatever gets it done"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "PR",       "weight": 1 },
+      "C": { "persona": "Creative", "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  },
+  {
+    "id": 4,
+    "ar": {
+      "q": "أكثر شي يجذبك في المشاريع الإعلامية؟",
+      "options": {
+        "A": "التخطيط والجدولة",
+        "B": "الإبداع والهوية",
+        "C": "العلاقات والتفاعل مع الجمهور",
+        "D": "التوثيق والإخراج النهائي"
+      }
+    },
+    "en": {
+      "q": "What attracts you in media projects?",
+      "options": {
+        "A": "Planning & scheduling",
+        "B": "Creative identity",
+        "C": "Public engagement",
+        "D": "Documentation & delivery"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  },
+  {
+    "id": 5,
+    "ar": {
+      "q": "لما تشوف فكرة جديدة، وش أول شي يخطر ببالك؟",
+      "options": {
+        "A": "كيف نقدر نطبّقها عمليًا؟",
+        "B": "كيف نخليها أكثر إبداعًا؟",
+        "C": "كيف نوصلها للناس؟",
+        "D": "كيف نوثّقها أو نقيس أثرها؟"
+      }
+    },
+    "en": {
+      "q": "See a new idea—what’s first?",
+      "options": {
+        "A": "How to execute it?",
+        "B": "How to make it more creative?",
+        "C": "How to reach people?",
+        "D": "How to document/measure?"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Reliable", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Analysis", "weight": 1 }
+    }
+  },
+  {
+    "id": 6,
+    "ar": {
+      "q": "إذا انضمّيت لفريق “وَن”، أي دور يناسبك أكثر؟",
+      "options": {
+        "A": "منسّق المشروع – أحب التنظيم والمتابعة",
+        "B": "المبدع – أصيغ الأفكار وأصمم التجارب",
+        "C": "المتحدث – أبرع في الإقناع والتمثيل والظهور",
+        "D": "المنتج – أنفذ بدقة وأوصل النتيجة النهائية"
+      }
+    },
+    "en": {
+      "q": "If you join Team One, best role?",
+      "options": {
+        "A": "Project coordinator",
+        "B": "Creative maker",
+        "C": "Spokesperson",
+        "D": "Producer"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  },
+  {
+    "id": 7,
+    "ar": {
+      "q": "وش أكثر شعور تحب تحققه بعد إنجاز مشروع؟",
+      "options": {
+        "A": "إننا نفذنا الخطة بدقة",
+        "B": "إننا قدمنا فكرة غير مسبوقة",
+        "C": "إننا أثرنا في الناس",
+        "D": "إننا وثقنا تجربة تستحق التكرار"
+      }
+    },
+    "en": {
+      "q": "Best feeling after a project?",
+      "options": {
+        "A": "Plan executed perfectly",
+        "B": "Novel idea delivered",
+        "C": "People were impacted",
+        "D": "Documented for repeatability"
+      }
+    },
+    "mapping": {
+      "A": { "persona": "Analysis", "weight": 1 },
+      "B": { "persona": "Creative", "weight": 1 },
+      "C": { "persona": "PR",       "weight": 1 },
+      "D": { "persona": "Reliable", "weight": 1 }
+    }
+  }
+]
+</script>
 
 <script>
 /* =================== اللغة =================== */
@@ -247,90 +437,25 @@ document.getElementById('langBtn').addEventListener('click', ()=>{
   renderQuestion();
 });
 
-/* ======= تحميل الأسئلة من Excel إن وُجد ======= */
-/* توقّعات الأعمدة:
-   Question_AR, A_AR, B_AR, C_AR, D_AR,
-   Question_EN, A_EN, B_EN, C_EN, D_EN,
-   Persona_A, Persona_B, Persona_C, Persona_D,
-   Weight_A, Weight_B, Weight_C, Weight_D
-*/
+/* ======= تحميل الأسئلة من JSON المضمّن ======= */
 let QUESTIONS = [];
 let ANSWERS = {};
 let personaScores = {Analysis:0, Creative:0, PR:0, Reliable:0};
 let currentIndex = 0;
 let submissions = [];
 
-async function tryLoadExcel(){
+async function tryLoadQuestions(){
+  const holder = document.getElementById('embedded-questions');
   try{
-    const res = await fetch('impact-mapping.xlsx', {cache:'no-store'});
-    if(!res.ok) throw new Error('no xlsx');
-    const buf = await res.arrayBuffer();
-    const wb = XLSX.read(buf,{type:'array'});
-    const sheet = wb.Sheets[wb.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(sheet,{defval:''});
-
-    QUESTIONS = rows.map((r,idx)=>({
-      id: idx+1,
-      ar: { q:r.Question_AR || `سؤال ${idx+1}`, options:{A:r.A_AR,B:r.B_AR,C:r.C_AR,D:r.D_AR} },
-      en: { q:r.Question_EN || `Question ${idx+1}`, options:{A:r.A_EN,B:r.B_EN,C:r.C_EN,D:r.D_EN} },
-      mapping: {
-        A:{persona:normPersona(r.Persona_A), weight:num(r.Weight_A,1)},
-        B:{persona:normPersona(r.Persona_B), weight:num(r.Weight_B,1)},
-        C:{persona:normPersona(r.Persona_C), weight:num(r.Weight_C,1)},
-        D:{persona:normPersona(r.Persona_D), weight:num(r.Weight_D,1)},
-      }
-    })).filter(q => q.ar.options.A || q.en.options.A);
+    const data = JSON.parse(holder.textContent);
+    if(Array.isArray(data) && data.length){ QUESTIONS = data; return; }
   }catch(e){
-    QUESTIONS = fallbackQuestions();
+    console.warn('Embedded JSON parse error:', e);
   }
+  QUESTIONS = fallbackQuestions(); // لو حصل خطأ
 }
-function normPersona(p){
-  if(!p) return 'Reliable';
-  const s = (''+p).toLowerCase();
-  if(s.includes('anal')) return 'Analysis';
-  if(s.includes('creat')) return 'Creative';
-  if(s.includes('pr')) return 'PR';
-  if(s.includes('reli')) return 'Reliable';
-  return 'Reliable';
-}
-function num(v,d=1){ const n=parseFloat(v); return Number.isFinite(n)? n:d; }
 
-function fallbackQuestions(){
-  const base=[ // نفس أسئلة fallback السبعة
-    {arQ:'لما تواجه تحدّي، وش أول شيء تسويه؟', arA:'تخطط وتجمع المعلومات', arB:'تبتكر فكرة جديدة', arC:'تتواصل مع الآخرين لحلّه', arD:'توثق كل شيء بخطوات واضحة',
-     enQ:'When you face a challenge, what do you do first?', enA:'Plan & gather info', enB:'Come up with a new idea', enC:'Talk to others to solve it', enD:'Document clear steps',
-     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
-    {arQ:'أكثر شي تحبّه في الشغل الجماعي؟', arA:'التنظيم والتوزيع', arB:'العصف الذهني والإبداع', arC:'الحماس والطاقة بين الفريق', arD:'التوثيق والنتائج النهائية',
-     enQ:'What do you like most in teamwork?', enA:'Organizing & assigning', enB:'Brainstorming & creativity', enC:'Team energy', enD:'Documentation & outcomes',
-     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
-    {arQ:'تفضّل تكون خلف الكواليس ولا في الواجهة؟', arA:'خلف الكواليس – أحب أضبط التفاصيل', arB:'في الواجهة – أحب أتكلم وأقنع', arC:'بين الاثنين', arD:'المهم ينجح العمل',
-     enQ:'Backstage or frontstage?', enA:'Backstage—polish details', enB:'Frontstage—speak & persuade', enC:'Balance both', enD:'Whatever gets it done',
-     map:{A:'Analysis',B:'PR',C:'Creative',D:'Reliable'}},
-    {arQ:'أكثر شي يجذبك في المشاريع الإعلامية؟', arA:'التخطيط والجدولة', arB:'الإبداع والهوية', arC:'العلاقات والتفاعل مع الجمهور', arD:'التوثيق والإخراج',
-     enQ:'What attracts you in media projects?', enA:'Planning & scheduling', enB:'Creative identity', enC:'Public engagement', enD:'Documentation & delivery',
-     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
-    {arQ:'لما تشوف فكرة جديدة، وش أول شي يخطر ببالك؟', arA:'كيف نطبّقها عمليًا؟', arB:'كيف نخليها أبدع؟', arC:'كيف نوصلها للناس؟', arD:'كيف نوثّقها أو نقيس أثرها؟',
-     enQ:'See a new idea—what’s first?', enA:'How to execute it?', enB:'How to make it more creative?', enC:'How to reach people?', enD:'How to document/measure?',
-     map:{A:'Reliable',B:'Creative',C:'PR',D:'Analysis'}},
-    {arQ:'لو انضمّيت لفريق "وَن"، أي دور يناسبك؟', arA:'منسّق المشروع', arB:'المبدع', arC:'المتحدث', arD:'المنتج',
-     enQ:'If you join Team One, best role?', enA:'Project coordinator', enB:'Creative maker', enC:'Spokesperson', enD:'Producer',
-     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}},
-    {arQ:'وش أكثر شعور تحب تحققه بعد إنجاز مشروع؟', arA:'نفذنا الخطة بدقة', arB:'قدّمنا فكرة غير مسبوقة', arC:'أثرنا في الناس', arD:'وثقنا تجربة تستحق التكرار',
-     enQ:'Best feeling after a project?', enA:'Plan executed perfectly', enB:'Novel idea delivered', enC:'People were impacted', enD:'Documented for repeatability',
-     map:{A:'Analysis',B:'Creative',C:'PR',D:'Reliable'}}
-  ];
-  return base.map((b,i)=>({
-    id:i+1,
-    ar:{q:b.arQ, options:{A:b.arA,B:b.arB,C:b.arC,D:b.arD}},
-    en:{q:b.enQ, options:{A:b.enA,B:b.enB,C:b.enC,D:b.enD}},
-    mapping:{
-      A:{persona:b.map.A, weight:1},
-      B:{persona:b.map.B, weight:1},
-      C:{persona:b.map.C, weight:1},
-      D:{persona:b.map.D, weight:1}
-    }
-  }));
-}
+function fallbackQuestions(){ return []; } // مش هنحتاجها فعليًا
 
 /* =================== منطق UI =================== */
 const qArea=document.getElementById('questionArea');
@@ -458,22 +583,18 @@ document.getElementById('restartBtn').addEventListener('click', ()=>{
   personaScores={Analysis:0, Creative:0, PR:0, Reliable:0};
   currentIndex=0;
 
-  // اخفِ كل أجزاء الاختبار/النتيجة/الشهادة
   document.getElementById('resultBox').style.display='none';
   document.getElementById('postActions').style.display='none';
   document.getElementById('certWrap').style.display='none';
   document.getElementById('questionArea').style.display='none';
   document.getElementById('progressWrap').style.display='none';
 
-  // أظهر صفحة البيانات فقط
   document.getElementById('userForm').style.display='block';
 
-  // نظّف الحقول
   document.getElementById('name').value='';
   document.getElementById('email').value='';
   document.getElementById('phone').value='';
 
-  // رجوع لأعلى الصفحة
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
@@ -483,7 +604,6 @@ document.getElementById('certBtn').addEventListener('click', async ()=>{
   const fileName=(document.getElementById('name').value.trim() || 'certificate') + '.pdf';
 
   try{
-    // انتظر تحميل شعارات الشهادة
     const imgs=cert.querySelectorAll('img');
     await Promise.all(Array.from(imgs).map(img=>{
       if(img.complete) return Promise.resolve();
@@ -507,7 +627,7 @@ document.getElementById('certBtn').addEventListener('click', async ()=>{
     pdf.addImage(imgData,'PNG',x,y,w,h);
     pdf.save(fileName);
   }catch(err){
-    console.error('PDF failed, falling back to PNG:', err);
+    console.error('PDF failed, fallback PNG:', err);
     const pngCanvas=await html2canvas(cert,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#ffffff'});
     const a=document.createElement('a');
     a.href=pngCanvas.toDataURL('image/png');
@@ -519,7 +639,7 @@ document.getElementById('certBtn').addEventListener('click', async ()=>{
 /* =================== Boot =================== */
 (async function init(){
   applyLang();
-  await tryLoadExcel();   // يحمل impact-mapping.xlsx لو موجود وإلا يستخدم fallback
+  await tryLoadQuestions();  // يقرأ JSON المضمّن
 })();
 </script>
 </body>
