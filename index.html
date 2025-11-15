@@ -110,7 +110,7 @@
     <div class="grid-2">
       <div>
         <label id="lblName" for="name">الاسم الكامل</label>
-        <input type="text" id="name" placeholder="اكتب اسمك هنا" />
+        <input type="text" id="name" placeholder="name" />
       </div>
       <div>
         <label id="lblEmail" for="email">الإيميل</label>
@@ -160,10 +160,7 @@
   <!-- شهادة HTML (للتصدير PDF) -->
   <div id="certWrap" class="cert-wrap">
     <div id="certificate" class="certificate">
-      <div class="cert-logos">
-        <img src="one-logo.png" alt="One Logo" crossOrigin="anonymous" />
-        <img src="misklogo.png" alt="Misk Logo" crossOrigin="anonymous" />
-      </div>
+    
       <div id="certName" class="cert-name">اسم المُشارك</div>
     </div>
   </div>
@@ -386,7 +383,7 @@ const STRINGS = {
     downloadCSV:"تحميل ملف النتائج CSV",
     restart:"إعادة الاختبار",
     cert:"طباعة شهادة بالاسم",
-    langBtn:"English",
+    langBtn:"En",
     personas:{Analysis:"Analysis Person", Creative:"Creative Person", PR:"PR Person", Reliable:"Reliable Person"}
   },
   en:{
@@ -406,7 +403,7 @@ const STRINGS = {
     downloadCSV:"Download CSV",
     restart:"Restart",
     cert:"Print name certificate",
-    langBtn:"العربية",
+    langBtn:"ع",
     personas:{Analysis:"Analysis Person", Creative:"Creative Person", PR:"PR Person", Reliable:"Reliable Person"}
   }
 };
@@ -414,6 +411,7 @@ let LANG = localStorage.getItem('impact_lang') || 'ar';
 function applyLang(){
   const S = STRINGS[LANG];
   document.documentElement.lang = LANG;
+  document.documentElement.dir  = (LANG === 'ar' ? 'rtl' : 'ltr');
   document.documentElement.classList.toggle('rtl', LANG==='ar');
   document.documentElement.classList.toggle('ltr', LANG==='en');
   document.getElementById('title').innerText = S.title;
@@ -429,6 +427,10 @@ function applyLang(){
   document.getElementById('restartBtn').innerText = S.restart;
   document.getElementById('certBtn').innerText = S.cert;
   document.getElementById('langBtn').innerText = S.langBtn;
+   const langBtn = document.getElementById('langBtn');
+  if (langBtn) {
+    langBtn.textContent = S.langBtn;
+  }
 }
 document.getElementById('langBtn').addEventListener('click', ()=>{
   LANG = (LANG==='ar')? 'en':'ar';
