@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,459 +12,572 @@
 
   <style>
     :root {
-      --primary:#102331;        /* أزرق غامق قريب من تصميم ون */
-      --primary-soft:#f5f7fb;
-      --accent:#f58220;         /* برتقالي من الهوية */
-      --text:#101318;
+      --primary: #102331;
+      /* أزرق غامق قريب من تصميم ون */
+      --primary-soft: #f5f7fb;
+      --accent: #f58220;
+      /* برتقالي من الهوية */
+      --text: #101318;
     }
-/* Regular */
-@font-face {
-  font-family: 'DINNextArabic';
-  src: url('fonts/ArbFONTS-DINNextLTArabic-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
-/* Light */
-@font-face {
-  font-family: 'DINNextArabic';
-  src: url('fonts/ArbFONTS-DINNEXTLTARABIC-LIGHT.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
+    /* Regular */
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/ArbFONTS-DINNextLTArabic-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
 
-/* Bold – نستخدم ملف واحد أوضح من ملفات OTF المتاحة */
-@font-face {
-  font-family: 'DINNextArabic';
-  src: url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+    /* Light */
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/ArbFONTS-DINNEXTLTARABIC-LIGHT.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
 
-/* Heavy */
-@font-face {
-  font-family: 'DINNextArabic';
-  src: url('fonts/DIN NEXT™️ ARABIC HEAVY 2.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
+    /* Bold – نستخدم ملف واحد أوضح من ملفات OTF المتاحة */
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* Heavy */
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/DIN NEXT™️ ARABIC HEAVY 2.otf') format('opentype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     /* خط DIN (لو حابب تحطه في مجلد fonts) */
-    @font-face{
-      font-family:'DINNextArabic';
-      src:url('fonts/DINNextLTArabic-Regular.ttf') format('truetype');
-      font-weight:normal; font-style:normal; font-display:swap;
+    @font-face {
+      font-family: 'DINNextArabic';
+      src: url('fonts/DINNextLTArabic-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'DINNextArabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:#072638;
-      color:var(--text);
-      line-height:1.7;
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: 'DINNextArabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #072638;
+      color: var(--text);
+      line-height: 1.7;
     }
 
     /* الشريط العلوي */
-    .topbar{
-      background:transparent;
-      color:#fff;
-      position:fixed;
-      top:0; left:0; right:0;
-      z-index:10;
-      padding:14px 22px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      pointer-events:none;   /* علشان مايغطيش الزرار تحت */
+    .topbar {
+      background: transparent;
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+      /* علشان مايغطيش الزرار تحت */
     }
-    .topbar-inner{
-      pointer-events:auto;   /* نفعّل التفاعل داخل العناصر فقط */
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .logos{display:flex; align-items:center; gap:10px}
-    .logos img{height:48px; object-fit:contain}
 
-    .lang-toggle{
-      background:rgba(0,0,0,0.45);
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.7);
-      border-radius:999px;
-      padding:6px 16px;
-      cursor:pointer;
-      font-weight:700;
-      font-size:14px;
+    .topbar-inner {
+      pointer-events: auto;
+      /* نفعّل التفاعل داخل العناصر فقط */
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .logos img {
+      height: 48px;
+      object-fit: contain
+    }
+
+    /* Landing Title Style — Matches the image */
+    .landing-title {
+      font-family: 'DINNextArabic', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #ffffff;
+      margin: 0 0 18px;
+    }
+
+    /* Landing Sub Title */
+    .landing-sub {
+      font-family: 'DINNextArabic', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: #dce6eb;
+      max-width: 480px;
+      margin-bottom: 28px;
+    }
+
+    /* Highlighted word (Creativity & Impact) */
+    .highlight {
+      color: #f58220;
+      font-weight: 900;
+    }
+
+    .lang-toggle {
+      background: rgba(0, 0, 0, 0.45);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      padding: 6px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     /* شاشة الهيرو (الواجهه – تصميم 2) */
-    .landing{
-      min-height:100vh;
-      background:url('landing-2.jpeg') center center / cover no-repeat;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      padding-inline:7%;
-      position:relative;
-      color:#fff;
+    .landing {
+      min-height: 100vh;
+      background: url('landing-2.jpeg') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-inline: 7%;
+      position: relative;
+      color: #fff;
     }
-    .landing::after{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.35);
+
+    .landing::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
     }
-    .landing-content{
-      position:relative;
-      z-index:1;
-      max-width:520px;
+
+    .landing-content {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
     }
-    .landing-title{
-      font-size:38px;
-      font-weight:800;
-      margin:0 0 14px;
+
+    .landing-title {
+      font-size: 38px;
+      font-weight: 800;
+      margin: 0 0 14px;
     }
-    .landing-sub{
-      font-size:18px;
-      max-width:380px;
-      margin-bottom:24px;
+
+    .landing-sub {
+      font-size: 18px;
+      max-width: 380px;
+      margin-bottom: 24px;
     }
-    .landing-btn{
-      background:rgba(0,0,0,0.55);
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.7);
-      color:#fff;
-      padding:14px 46px;
-      font-size:18px;
-      font-weight:600;
-      cursor:pointer;
-      backdrop-filter:blur(6px);
+
+    .landing-btn {
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      color: #fff;
+      padding: 14px 46px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
     }
-    .landing-btn:hover{
-      background:rgba(0,0,0,0.75);
+
+    .landing-btn:hover {
+      background: rgba(0, 0, 0, 0.75);
     }
 
     /* الكونتينر الأساسي بعد الهيرو – مكبّره عشان الفورم يبان */
-    .container{
-      max-width:960px;
-      margin:80px auto 32px;
-      background:#ffffff;
-      border-radius:26px;
-      box-shadow:0 30px 80px rgba(0,0,0,0.35);
-      padding:40px 36px 32px;
+    .container {
+      max-width: 960px;
+      margin: 80px auto 32px;
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      padding: 40px 36px 32px;
     }
 
-    h1{
-      margin:8px 0 4px;
-      color:var(--primary);
-      text-align:center;
-      font-size:26px;
-    }
-    .subtitle{
-      text-align:center;
-      color:#555;
-      margin-bottom:20px;
-      font-size:15px;
+    h1 {
+      margin: 8px 0 4px;
+      color: var(--primary);
+      text-align: center;
+      font-size: 26px;
     }
 
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
     /* كارد الفورم نفسه – أكبر وواضح */
-    #userForm{
-      background:var(--primary-soft);
-      border-radius:24px;
-      border:1px solid #d7dbe5;
-      padding:28px 24px 24px;
-      margin-top:8px;
+    #userForm {
+      background: var(--primary-soft);
+      border-radius: 24px;
+      border: 1px solid #d7dbe5;
+      padding: 28px 24px 24px;
+      margin-top: 8px;
     }
 
-    label{display:block; margin-bottom:6px; font-size:15px}
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px
+    }
+
     input[type="text"],
     input[type="email"],
-    input[type="tel"]{
-      width:100%;
-      padding:14px 16px;
-      border:1px solid #d7dbe5;
-      border-radius:999px;
-      font-size:16px;
+    input[type="tel"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d7dbe5;
+      border-radius: 999px;
+      font-size: 16px;
     }
 
-    .progress{
-      margin:24px 0 8px;
-      height:10px;
-      background:#e7ebf3;
-      border-radius:999px;
-      overflow:hidden;
-    }
-    .progress>span{
-      display:block;
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,#f58220,#ffb347);
-      transition:width 280ms ease-out;
+    .progress {
+      margin: 24px 0 8px;
+      height: 10px;
+      background: #e7ebf3;
+      border-radius: 999px;
+      overflow: hidden;
     }
 
-    .card{
-      background:var(--primary-soft);
-      border-radius:16px;
-      padding:18px 16px 16px;
-      border:1px solid #dde2f0;
-      margin-top:12px;
-    }
-    .q-title{
-      margin:0 0 12px;
-      font-weight:800;
-      color:var(--primary);
-      font-size:16px;
-    }
-    label.option{
-      display:block;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid #d2d8e7;
-      margin:7px 0;
-      cursor:pointer;
-      background:#fff;
-      font-size:14px;
-    }
-    label.option input{margin-inline-start:6px}
-    label.option:hover{border-color:#f58220;}
-
-    .actions{
-      display:flex;
-      gap:10px;
-      justify-content:space-between;
-      margin-top:18px;
-      flex-wrap:wrap;
-    }
-    .btn{
-      background:var(--primary);
-      color:#fff;
-      border:0;
-      padding:10px 20px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:800;
-      font-size:14px;
-      min-width:130px;
-      text-align:center;
-    }
-    .btn:disabled{opacity:.4; cursor:not-allowed}
-    .btn.secondary{background:#7e7e86}
-    .btn.ghost{
-      background:#fff;
-      color:var(--primary);
-      border:2px solid var(--primary);
+    .progress>span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f58220, #ffb347);
+      transition: width 280ms ease-out;
     }
 
-    .result{
-      display:none;
-      margin-top:18px;
-      padding:16px;
-      border-radius:14px;
-      background:#f5f0ff;
-      border:1px solid #e1d4ff;
-      text-align:center;
-      font-size:15px;
+    .card {
+      background: var(--primary-soft);
+      border-radius: 16px;
+      padding: 18px 16px 16px;
+      border: 1px solid #dde2f0;
+      margin-top: 12px;
     }
 
-    .footer-note{
-      text-align:center;
-      color:#8c8c93;
-      margin:16px 0 26px;
-      font-size:13px;
+    .q-title {
+      margin: 0 0 12px;
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    label.option {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid #d2d8e7;
+      margin: 7px 0;
+      cursor: pointer;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    label.option input {
+      margin-inline-start: 6px
+    }
+
+    label.option:hover {
+      border-color: #f58220;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      padding: 10px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      min-width: 130px;
+      text-align: center;
+    }
+
+    .btn:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .btn.secondary {
+      background: #7e7e86
+    }
+
+    .btn.ghost {
+      background: #fff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #f5f0ff;
+      border: 1px solid #e1d4ff;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #8c8c93;
+      margin: 16px 0 26px;
+      font-size: 13px;
     }
 
     /* شهادة – خلفية + شكل */
-    .cert-wrap{
-      width:100%;
-      display:none;
-      justify-content:center;
-      margin-top:20px;
-      padding:32px 10px;
-      border-radius:20px;
-      background:url('certificate-bg-4.jpg') center center / cover no-repeat;
+    .cert-wrap {
+      width: 100%;
+      display: none;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 32px 10px;
+      border-radius: 20px;
+      background: url('certificate-bg-4.jpg') center center / cover no-repeat;
     }
-    .certificate{
-      width:100%;
-      max-width:900px;
-      aspect-ratio: 1.414/1;  /* قريب من A4 أفقى */
-      border-radius:20px;
-      background:url('certificate-3.jpg') center center / cover no-repeat;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:flex-start;
-      padding:80px 10% 60px;
-      color:#102331;
-      gap:10px;
+
+    .certificate {
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 1.414/1;
+      /* قريب من A4 أفقى */
+      border-radius: 20px;
+      background: url('certificate-3.jpg') center center / cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 80px 10% 60px;
+      color: #102331;
+      gap: 10px;
     }
-    .cert-logo{
-      height:56px;
-      margin-bottom:8px;
+
+    .cert-logo {
+      height: 56px;
+      margin-bottom: 8px;
     }
-    .cert-header-line{
-      font-size:18px;
-      font-weight:500;
+
+    .cert-header-line {
+      font-size: 18px;
+      font-weight: 500;
     }
-    .cert-header-highlight{
-      font-size:26px;
-      font-weight:900;
-      color:#b01818;
-      margin-bottom:18px;
+
+    .cert-header-highlight {
+      font-size: 26px;
+      font-weight: 900;
+      color: #b01818;
+      margin-bottom: 18px;
     }
-    .cert-name{
-      font-size:36px;
-      font-weight:900;
-      margin:8px 0 4px;
+
+    .cert-name {
+      font-size: 36px;
+      font-weight: 900;
+      margin: 8px 0 4px;
     }
-    .cert-role{
-      font-size:20px;
-      font-weight:800;
-      color:#e4572e;
-      margin-bottom:10px;
+
+    .cert-role {
+      font-size: 20px;
+      font-weight: 800;
+      color: #e4572e;
+      margin-bottom: 10px;
     }
-    .cert-desc{
-      max-width:540px;
-      font-size:16px;
-      line-height:1.8;
+
+    .cert-desc {
+      max-width: 540px;
+      font-size: 16px;
+      line-height: 1.8;
     }
 
     /* اتجاه */
-    .rtl{direction:rtl}
-    .ltr{direction:ltr}
+    .rtl {
+      direction: rtl
+    }
 
-    @media (max-width:600px){
-      .landing-title{font-size:30px}
-      .landing-sub{font-size:15px}
-      .container{
-        margin:60px 10px 24px;
-        padding:26px 18px 24px;
+    .ltr {
+      direction: ltr
+    }
+
+    @media (max-width:600px) {
+      .landing-title {
+        font-size: 30px
       }
-      #userForm{
-        padding:22px 16px 18px;
+
+      .landing-sub {
+        font-size: 15px
       }
-      .certificate{padding:40px 30px}
-      .cert-name{font-size:28px}
-      .cert-header-highlight{font-size:22px}
+
+      .container {
+        margin: 60px 10px 24px;
+        padding: 26px 18px 24px;
+      }
+
+      #userForm {
+        padding: 22px 16px 18px;
+      }
+
+      .certificate {
+        padding: 40px 30px
+      }
+
+      .cert-name {
+        font-size: 28px
+      }
+
+      .cert-header-highlight {
+        font-size: 22px
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- الشريط العلوي (ثابت فوق) -->
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="logos">
-      <img src="one-logo.png" alt="One Logo" />
-    </div>
-    <button id="langBtn" class="lang-toggle">En</button>
-  </div>
-</header>
-
-<!-- شاشة الهيرو الأولى (واجهة الموقع) -->
-<section id="landing" class="landing">
-  <div class="landing-content">
-    <h2 id="landingTitle" class="landing-title">
-      Let inspiration<br>Guide you toward<br><span style="color:#f58220">Creativity & Impact</span>
-    </h2>
-    <p id="landingSub" class="landing-sub">
-      Answer a few simple questions and discover your unique impact style with فريق ون.
-    </p>
-    <button id="landingStartBtn" class="landing-btn">START</button>
-  </div>
-</section>
-
-<!-- المحتوى الرئيسي بعد الهيرو (مخفي في البداية) -->
-<main id="appContainer" class="container" style="display:none">
-  <h1 id="title">🧭 بوصلة الأثر</h1>
-  <div id="subtitle" class="subtitle">سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.</div>
-
-  <!-- صفحة البيانات -->
-  <section id="userForm">
-    <div class="grid-2">
-      <div>
-        <label id="lblName" for="name">الاسم الكامل</label>
-        <input type="text" id="name" placeholder="name" inputmode="latin" autocomplete="off" />
+  <!-- الشريط العلوي (ثابت فوق) -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logos">
+        <img src="one-logo.png" alt="One Logo" />
       </div>
-      <div>
-        <label id="lblEmail" for="email">الإيميل</label>
-        <input type="email" id="email" placeholder="example@email.com" />
-      </div>
+      <button id="langBtn" class="lang-toggle">En</button>
     </div>
-    <div style="margin-top:14px">
-      <label id="lblPhone" for="phone">رقم الجوال</label>
-      <input type="tel" id="phone" placeholder="05xxxxxxxx" />
-    </div>
-    <div class="actions" style="justify-content:flex-end; margin-top:16px">
-      <button class="btn" id="startBtn">ابدأ الاختبار</button>
+  </header>
+
+  <!-- شاشة الهيرو الأولى (واجهة الموقع) -->
+  <section id="landing" class="landing">
+    <div class="landing-content">
+      <h2 id="landingTitle" class="landing-title">
+        Let inspiration<br>
+        Guide you toward<br>
+        <span class="highlight">Creativity & Impact</span>
+      </h2>
+      <p id="landingSub" class="landing-sub">
+        Answer a few simple questions and discover your unique impact style with فريق ون.
+      </p>
+      <button id="landingStartBtn" class="landing-btn">START</button>
     </div>
   </section>
 
-  <!-- شريط التقدم -->
-  <div id="progressWrap" style="display:none">
-    <div class="progress"><span id="progressBar"></span></div>
-    <div id="stepText" style="text-align:center; color:#666; font-size:14px"></div>
-  </div>
+  <!-- المحتوى الرئيسي بعد الهيرو (مخفي في البداية) -->
+  <main id="appContainer" class="container" style="display:none">
+    <h1 id="title">🧭 بوصلة الأثر</h1>
+    <div id="subtitle" class="subtitle">سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.</div>
 
-  <!-- منطقة السؤال -->
-  <section id="questionArea" style="display:none">
-    <div class="card">
-      <p class="q-title" id="qTitle">سؤال 1</p>
-      <div id="options"></div>
-      <div class="actions">
-        <button class="btn ghost" id="prevBtn"> السابق</button>
-        <div style="display:flex; gap:8px">
-          <button class="btn secondary" id="saveBtn">حفظ & التالي</button>
-          <button class="btn" id="nextBtn">التالي</button>
+    <!-- صفحة البيانات -->
+    <section id="userForm">
+      <div class="grid-2">
+        <div>
+          <label id="lblName" for="name">الاسم الكامل</label>
+          <input type="text" id="name" placeholder="name" inputmode="latin" autocomplete="off" />
+        </div>
+        <div>
+          <label id="lblEmail" for="email">الإيميل</label>
+          <input type="email" id="email" placeholder="example@email.com" />
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- النتيجة -->
-  <section id="resultBox" class="result"></section>
-
-  <!-- أزرار ما بعد النتيجة -->
-  <div id="postActions" class="actions" style="display:none; justify-content:center">
-    <button class="btn" id="downloadCSV">تحميل ملف النتائج CSV</button>
-    <button class="btn secondary" id="restartBtn">إعادة الاختبار</button>
-    <button class="btn ghost" id="certBtn">طباعة الشهادة</button>
-  </div>
-
-  <!-- شهادة HTML (مع خلفية وديزاين) -->
-  <div id="certWrap" class="cert-wrap">
-    <div id="certificate" class="certificate">
-      <img src="one-logo.png" alt="One Logo" class="cert-logo" />
-      <div id="certHeader1" class="cert-header-line">
-        Your Journey Toward Creativity and Impact
+      <div style="margin-top:14px">
+        <label id="lblPhone" for="phone">رقم الجوال</label>
+        <input type="tel" id="phone" placeholder="05xxxxxxxx" />
       </div>
-      <div id="certHeader2" class="cert-header-line cert-header-highlight">
-        Begins with Discovering Yourself
+      <div class="actions" style="justify-content:flex-end; margin-top:16px">
+        <button class="btn" id="startBtn">ابدأ الاختبار</button>
       </div>
+    </section>
 
-      <div id="certName" class="cert-name">Participant Name</div>
-      <div id="certRole" class="cert-role">You are a Creative</div>
-      <p id="certDesc" class="cert-desc">
-        You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater influence.
-      </p>
+    <!-- شريط التقدم -->
+    <div id="progressWrap" style="display:none">
+      <div class="progress"><span id="progressBar"></span></div>
+      <div id="stepText" style="text-align:center; color:#666; font-size:14px"></div>
     </div>
-  </div>
 
-  <div class="footer-note"> ون  One</div>
-</main>
+    <!-- منطقة السؤال -->
+    <section id="questionArea" style="display:none">
+      <div class="card">
+        <p class="q-title" id="qTitle">سؤال 1</p>
+        <div id="options"></div>
+        <div class="actions">
+          <button class="btn ghost" id="prevBtn"> السابق</button>
+          <div style="display:flex; gap:8px">
+            <button class="btn secondary" id="saveBtn">حفظ & التالي</button>
+            <button class="btn" id="nextBtn">التالي</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- ========== الأسئلة المدمجة كـ JSON ========== -->
-<script id="embedded-questions" type="application/json">
+    <!-- النتيجة -->
+    <section id="resultBox" class="result"></section>
+
+    <!-- أزرار ما بعد النتيجة -->
+    <div id="postActions" class="actions" style="display:none; justify-content:center">
+      <button class="btn" id="downloadCSV">تحميل ملف النتائج CSV</button>
+      <button class="btn secondary" id="restartBtn">إعادة الاختبار</button>
+      <button class="btn ghost" id="certBtn">طباعة الشهادة</button>
+    </div>
+
+    <!-- شهادة HTML (مع خلفية وديزاين) -->
+    <div id="certWrap" class="cert-wrap">
+      <div id="certificate" class="certificate">
+        <img src="one-logo.png" alt="One Logo" class="cert-logo" />
+        <div id="certHeader1" class="cert-header-line">
+          Your Journey Toward Creativity and Impact
+        </div>
+        <div id="certHeader2" class="cert-header-line cert-header-highlight">
+          Begins with Discovering Yourself
+        </div>
+
+        <div id="certName" class="cert-name">Participant Name</div>
+        <div id="certRole" class="cert-role">You are a Creative</div>
+        <p id="certDesc" class="cert-desc">
+          You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater
+          influence.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-note"> ون One</div>
+  </main>
+
+  <!-- ========== الأسئلة المدمجة كـ JSON ========== -->
+  <script id="embedded-questions" type="application/json">
 [
   {
     "id": 1,
@@ -657,439 +771,440 @@
 ]
 </script>
 
-<script>
-/* =================== نصوص الواجهه (عربي/إنجليزي) =================== */
-const STRINGS = {
-  ar:{
-    landingTitle:"دع الإلهام يقودك نحو الإبداع والأثر",
-    landingSub:"جاوب على أسئلة بسيطة، واكتشف أسلوبك الخاص في صناعة الأثر مع فريق ون.",
-    title:"🧭 بوصلة الأثر",
-    subtitle:"سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.",
-    lblName:"الاسم الكامل",
-    lblEmail:"الإيميل",
-    lblPhone:"رقم الجوال",
-    start:"ابدأ الاختبار",
-    prev:" السابق",
-    saveNext:"حفظ & التالي",
-    next:"التالي",
-    step:(i,n)=>`السؤال ${i} من ${n}`,
-    mustUser:"من فضلك اكتب الاسم والإيميل ورقم الجوال أولًا.",
-    mustAnswer:"اختر إجابة قبل الانتقال للسؤال التالي.",
-    result:(persona,percent)=>`شخصيتك هي : <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
-    downloadCSV:"تحميل ملف النتائج CSV",
-    restart:"إعادة الاختبار",
-    cert:"طباعة الشهادة",
-    langBtn:"En",
-    personas:{
-      Analysis:"Thinker",
-      Creative:"Creative",
-      PR:"Speaker",
-      Reliable:"Achiever"
+  <script>
+    /* =================== نصوص الواجهه (عربي/إنجليزي) =================== */
+    const STRINGS = {
+      ar: {
+        landingTitle: "دع الإلهام يقودك نحو الإبداع والأثر",
+        landingSub: "جاوب على أسئلة بسيطة، واكتشف أسلوبك الخاص في صناعة الأثر مع فريق ون.",
+        title: "🧭 بوصلة الأثر",
+        subtitle: "سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.",
+        lblName: "الاسم الكامل",
+        lblEmail: "الإيميل",
+        lblPhone: "رقم الجوال",
+        start: "ابدأ الاختبار",
+        prev: " السابق",
+        saveNext: "حفظ & التالي",
+        next: "التالي",
+        step: (i, n) => `السؤال ${i} من ${n}`,
+        mustUser: "من فضلك اكتب الاسم والإيميل ورقم الجوال أولًا.",
+        mustAnswer: "اختر إجابة قبل الانتقال للسؤال التالي.",
+        result: (persona, percent) => `شخصيتك هي : <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
+        downloadCSV: "تحميل ملف النتائج CSV",
+        restart: "إعادة الاختبار",
+        cert: "طباعة الشهادة",
+        langBtn: "En",
+        personas: {
+          Analysis: "Thinker",
+          Creative: "Creative",
+          PR: "Speaker",
+          Reliable: "Achiever"
+        }
+      },
+      en: {
+        landingTitle: "Let inspiration guide you toward Creativity & Impact",
+        landingSub: "Answer a few questions and discover your unique impact style with Team One.",
+        title: "🧭 Impact Compass",
+        subtitle: "Fill your details, then answer the questions one by one.",
+        lblName: "Full Name",
+        lblEmail: "Email",
+        lblPhone: "Phone",
+        start: "Start Quiz",
+        prev: "Previous",
+        saveNext: "Save & Next",
+        next: "Next",
+        step: (i, n) => `Question ${i} of ${n}`,
+        mustUser: "Please enter name, email, and phone first.",
+        mustAnswer: "Please select an answer before moving on.",
+        result: (persona, percent) => `Your best-fit track: <b>${persona}</b> — Match: <b>${percent}%</b>`,
+        downloadCSV: "Download CSV",
+        restart: "Restart",
+        cert: "Print Certificate",
+        langBtn: "ع",
+        personas: {
+          Analysis: "Thinker",
+          Creative: "Creative",
+          PR: "Speaker",
+          Reliable: "Achiever"
+        }
+      }
+    };
+
+    /* نصوص الشهادة حسب الشخصية واللغة */
+    const CERT_TEXT = {
+      en: {
+        Creative: {
+          line1: "Your Journey Toward Creativity and Impact",
+          line2: "Begins with Discovering Yourself",
+          role: "You are a Creative",
+          desc: "You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater influence."
+        },
+        Analysis: {
+          line1: "Your Journey Toward Creativity and Impact",
+          line2: "Begins with Discovering Yourself",
+          role: "You Are a Thinker",
+          desc: "You plan, shape strategies, and your skills pave the way for new opportunities and a greater influence."
+        },
+        Reliable: {
+          line1: "Your Journey Toward Creativity and Impact",
+          line2: "Begins with Discovering Yourself",
+          role: "You Are an Achiever",
+          desc: "You turn ideas into tangible reality, and your skills pave the way for new opportunities and a greater influence."
+        },
+        PR: {
+          line1: "Your Journey Toward Creativity and Impact",
+          line2: "Begins with Discovering Yourself",
+          role: "You Are a Speaker",
+          desc: "You deliver messages and inspire audiences, and your skills pave the way for new opportunities and a greater influence."
+        }
+      },
+      ar: {
+        Creative: {
+          line1: "رحلتك نحو الإبداع والأثر",
+          line2: "تبدأ من اكتشاف ذاتك",
+          role: "أنت مبدع",
+          desc: "تصنع الأفكار وتبتكر الحلول، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
+        },
+        Analysis: {
+          line1: "رحلتك نحو الإبداع والأثر",
+          line2: "تبدأ من اكتشاف ذاتك",
+          role: "أنت مفكّر",
+          desc: "تخطط وترسم الاستراتيجيات، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
+        },
+        Reliable: {
+          line1: "رحلتك نحو الإبداع والأثر",
+          line2: "تبدأ من اكتشاف ذاتك",
+          role: "أنت منجِز",
+          desc: "تحوّل الأفكار إلى واقع ملموس، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
+        },
+        PR: {
+          line1: "رحلتك نحو الإبداع والأثر",
+          line2: "تبدأ من اكتشاف ذاتك",
+          role: "أنت متحدِّث",
+          desc: "تقدّم الرسائل وتُلهم الآخرين، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
+        }
+      }
+    };
+
+    let LANG = localStorage.getItem('impact_lang') || 'ar';
+
+    function applyLang() {
+      const S = STRINGS[LANG];
+      document.documentElement.lang = LANG;
+      document.documentElement.dir = (LANG === 'ar' ? 'rtl' : 'ltr');
+      document.documentElement.classList.toggle('rtl', LANG === 'ar');
+      document.documentElement.classList.toggle('ltr', LANG === 'en');
+
+      // الهيرو
+      document.getElementById('landingTitle').textContent = S.landingTitle;
+      document.getElementById('landingSub').textContent = S.landingSub;
+      document.getElementById('landingStartBtn').textContent = (LANG === 'ar' ? 'ابدأ' : 'START');
+
+      // العناوين
+      document.getElementById('title').innerText = S.title;
+      document.getElementById('subtitle').innerText = S.subtitle;
+      document.getElementById('lblName').innerText = S.lblName;
+      document.getElementById('lblEmail').innerText = S.lblEmail;
+      document.getElementById('lblPhone').innerText = S.lblPhone;
+
+      document.getElementById('startBtn').innerText = S.start;
+      document.getElementById('prevBtn').innerText = S.prev;
+      document.getElementById('saveBtn').innerText = S.saveNext;
+      document.getElementById('nextBtn').innerText = S.next;
+      document.getElementById('downloadCSV').innerText = S.downloadCSV;
+      document.getElementById('restartBtn').innerText = S.restart;
+      document.getElementById('certBtn').innerText = S.cert;
+
+      const langBtn = document.getElementById('langBtn');
+      if (langBtn) langBtn.textContent = S.langBtn;
+
+      // تحديث نص الشهادة حسب اللغة والشخصية الحالية (لو موجودة)
+      if (latestPersona) updateCertificate(latestPersona);
     }
-  },
-  en:{
-    landingTitle:"Let inspiration guide you toward Creativity & Impact",
-    landingSub:"Answer a few questions and discover your unique impact style with Team One.",
-    title:"🧭 Impact Compass",
-    subtitle:"Fill your details, then answer the questions one by one.",
-    lblName:"Full Name",
-    lblEmail:"Email",
-    lblPhone:"Phone",
-    start:"Start Quiz",
-    prev:"Previous",
-    saveNext:"Save & Next",
-    next:"Next",
-    step:(i,n)=>`Question ${i} of ${n}`,
-    mustUser:"Please enter name, email, and phone first.",
-    mustAnswer:"Please select an answer before moving on.",
-    result:(persona,percent)=>`Your best-fit track: <b>${persona}</b> — Match: <b>${percent}%</b>`,
-    downloadCSV:"Download CSV",
-    restart:"Restart",
-    cert:"Print Certificate",
-    langBtn:"ع",
-    personas:{
-      Analysis:"Thinker",
-      Creative:"Creative",
-      PR:"Speaker",
-      Reliable:"Achiever"
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      LANG = (LANG === 'ar') ? 'en' : 'ar';
+      localStorage.setItem('impact_lang', LANG);
+      applyLang();
+      renderQuestion();
+    });
+
+    /* ======= تحميل الأسئلة من JSON المضمّن ======= */
+    let QUESTIONS = [];
+    let ANSWERS = {};
+    let personaScores = { Analysis: 0, Creative: 0, PR: 0, Reliable: 0 };
+    let currentIndex = 0;
+    let submissions = [];
+    let latestPersona = null;
+
+    async function tryLoadQuestions() {
+      const holder = document.getElementById('embedded-questions');
+      try {
+        const data = JSON.parse(holder.textContent);
+        if (Array.isArray(data) && data.length) { QUESTIONS = data; return; }
+      } catch (e) {
+        console.warn('Embedded JSON parse error:', e);
+      }
+      QUESTIONS = [];
     }
-  }
-};
 
-/* نصوص الشهادة حسب الشخصية واللغة */
-const CERT_TEXT = {
-  en:{
-    Creative:{
-      line1:"Your Journey Toward Creativity and Impact",
-      line2:"Begins with Discovering Yourself",
-      role:"You are a Creative",
-      desc:"You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater influence."
-    },
-    Analysis:{
-      line1:"Your Journey Toward Creativity and Impact",
-      line2:"Begins with Discovering Yourself",
-      role:"You Are a Thinker",
-      desc:"You plan, shape strategies, and your skills pave the way for new opportunities and a greater influence."
-    },
-    Reliable:{
-      line1:"Your Journey Toward Creativity and Impact",
-      line2:"Begins with Discovering Yourself",
-      role:"You Are an Achiever",
-      desc:"You turn ideas into tangible reality, and your skills pave the way for new opportunities and a greater influence."
-    },
-    PR:{
-      line1:"Your Journey Toward Creativity and Impact",
-      line2:"Begins with Discovering Yourself",
-      role:"You Are a Speaker",
-      desc:"You deliver messages and inspire audiences, and your skills pave the way for new opportunities and a greater influence."
+    /* =================== عناصر الواجهة =================== */
+    const qArea = document.getElementById('questionArea');
+    const qTitle = document.getElementById('qTitle');
+    const optionsWrap = document.getElementById('options');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressBar = document.getElementById('progressBar');
+    const stepText = document.getElementById('stepText');
+
+    /* شاشة الهيرو -> إظهار الفورم */
+    document.getElementById('landingStartBtn').addEventListener('click', () => {
+      document.getElementById('landing').style.display = 'none';
+      document.getElementById('appContainer').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* بدء الاختبار من الفورم */
+    document.getElementById('startBtn').addEventListener('click', () => {
+      const name = val('name'), email = val('email'), phone = val('phone');
+      if (!name || !email || !phone) {
+        alert(STRINGS[LANG].mustUser);
+        return;
+      }
+      document.getElementById('userForm').style.display = 'none';
+      qArea.style.display = 'block';
+      progressWrap.style.display = 'block';
+      renderQuestion();
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentIndex > 0) { currentIndex--; renderQuestion(); }
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (!ensureAnswered()) return;
+      if (currentIndex < QUESTIONS.length - 1) { currentIndex++; renderQuestion(); }
+      else { finish(); }
+    });
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      if (!ensureAnswered()) return;
+      if (currentIndex < QUESTIONS.length - 1) { currentIndex++; renderQuestion(); }
+      else { finish(); }
+    });
+
+    function val(id) { return document.getElementById(id).value.trim(); }
+
+    // اسم إنجليزي فقط (حروف + مسافة)
+    const nameInput = document.getElementById('name');
+    nameInput.addEventListener('input', function () {
+      this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    });
+
+    function renderQuestion() {
+      if (!QUESTIONS.length) return;
+      const q = QUESTIONS[currentIndex];
+      const S = STRINGS[LANG];
+      const text = (LANG === 'ar') ? q.ar.q : q.en.q;
+      const ops = (LANG === 'ar') ? q.ar.options : q.en.options;
+
+      qTitle.textContent = text || (LANG === 'ar' ? `سؤال ${q.id}` : `Question ${q.id}`);
+      optionsWrap.innerHTML = '';
+      ['A', 'B', 'C', 'D'].forEach(k => {
+        if (!ops[k]) return;
+        const id = `q_${q.id}_${k}`;
+        const lab = document.createElement('label');
+        lab.className = 'option';
+        lab.htmlFor = id;
+        lab.innerHTML = `<input type="radio" name="q${q.id}" id="${id}" value="${k}" ${ANSWERS[q.id] === k ? 'checked' : ''}/> ${ops[k]}`;
+        optionsWrap.appendChild(lab);
+      });
+
+      const pct = Math.round((currentIndex / QUESTIONS.length) * 100);
+      progressBar.style.width = pct + '%';
+      stepText.textContent = S.step(currentIndex + 1, QUESTIONS.length);
+
+      document.getElementById('prevBtn').disabled = (currentIndex === 0);
+      document.getElementById('nextBtn').textContent = (currentIndex === QUESTIONS.length - 1)
+        ? (LANG === 'ar' ? 'إنهاء' : 'Finish')
+        : S.next;
+      document.getElementById('saveBtn').textContent = (currentIndex === QUESTIONS.length - 1)
+        ? (LANG === 'ar' ? 'حفظ & إنهاء' : 'Save & Finish')
+        : S.saveNext;
     }
-  },
-  ar:{
-    Creative:{
-      line1:"رحلتك نحو الإبداع والأثر",
-      line2:"تبدأ من اكتشاف ذاتك",
-      role:"أنت مبدع",
-      desc:"تصنع الأفكار وتبتكر الحلول، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
-    },
-    Analysis:{
-      line1:"رحلتك نحو الإبداع والأثر",
-      line2:"تبدأ من اكتشاف ذاتك",
-      role:"أنت مفكّر",
-      desc:"تخطط وترسم الاستراتيجيات، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
-    },
-    Reliable:{
-      line1:"رحلتك نحو الإبداع والأثر",
-      line2:"تبدأ من اكتشاف ذاتك",
-      role:"أنت منجِز",
-      desc:"تحوّل الأفكار إلى واقع ملموس، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
-    },
-    PR:{
-      line1:"رحلتك نحو الإبداع والأثر",
-      line2:"تبدأ من اكتشاف ذاتك",
-      role:"أنت متحدِّث",
-      desc:"تقدّم الرسائل وتُلهم الآخرين، ومهاراتك تفتح الطريق لفرص جديدة وتأثير أكبر."
+
+    function ensureAnswered() {
+      const q = QUESTIONS[currentIndex];
+      const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+      if (!selected) {
+        alert(STRINGS[LANG].mustAnswer);
+        return false;
+      }
+      ANSWERS[q.id] = selected.value;
+      return true;
     }
-  }
-};
 
-let LANG = localStorage.getItem('impact_lang') || 'ar';
+    function computeScores() {
+      personaScores = { Analysis: 0, Creative: 0, PR: 0, Reliable: 0 };
+      let total = 0;
+      QUESTIONS.forEach(q => {
+        const a = ANSWERS[q.id]; if (!a) return;
+        const m = q.mapping[a] || { persona: 'Reliable', weight: 1 };
+        personaScores[m.persona] += m.weight; total += m.weight;
+      });
+      return total || 1;
+    }
 
-function applyLang(){
-  const S = STRINGS[LANG];
-  document.documentElement.lang = LANG;
-  document.documentElement.dir  = (LANG === 'ar' ? 'rtl' : 'ltr');
-  document.documentElement.classList.toggle('rtl', LANG==='ar');
-  document.documentElement.classList.toggle('ltr', LANG==='en');
+    function finish() {
+      const total = computeScores();
+      let winner = 'Reliable', max = -1;
+      for (const k in personaScores) {
+        if (personaScores[k] > max) { max = personaScores[k]; winner = k; }
+      }
+      latestPersona = winner;
+      const percent = Math.round((max / total) * 100);
 
-  // الهيرو
-  document.getElementById('landingTitle').textContent = S.landingTitle;
-  document.getElementById('landingSub').textContent   = S.landingSub;
-  document.getElementById('landingStartBtn').textContent = (LANG==='ar' ? 'ابدأ' : 'START');
+      const S = STRINGS[LANG];
+      const res = document.getElementById('resultBox');
+      res.innerHTML = S.result(S.personas[winner], percent);
+      res.style.display = 'block';
+      document.getElementById('postActions').style.display = 'flex';
 
-  // العناوين
-  document.getElementById('title').innerText = S.title;
-  document.getElementById('subtitle').innerText = S.subtitle;
-  document.getElementById('lblName').innerText = S.lblName;
-  document.getElementById('lblEmail').innerText = S.lblEmail;
-  document.getElementById('lblPhone').innerText = S.lblPhone;
+      updateCertificate(winner);
 
-  document.getElementById('startBtn').innerText = S.start;
-  document.getElementById('prevBtn').innerText  = S.prev;
-  document.getElementById('saveBtn').innerText  = S.saveNext;
-  document.getElementById('nextBtn').innerText  = S.next;
-  document.getElementById('downloadCSV').innerText = S.downloadCSV;
-  document.getElementById('restartBtn').innerText   = S.restart;
-  document.getElementById('certBtn').innerText      = S.cert;
+      const row = {
+        name: val('name'), email: val('email'), phone: val('phone'),
+        persona: winner, percentage: percent,
+        answers: QUESTIONS.map(q => ANSWERS[q.id] || '')
+      };
+      submissions.push(row);
+    }
 
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) langBtn.textContent = S.langBtn;
-
-  // تحديث نص الشهادة حسب اللغة والشخصية الحالية (لو موجودة)
-  if (latestPersona) updateCertificate(latestPersona);
-}
-
-document.getElementById('langBtn').addEventListener('click', ()=>{
-  LANG = (LANG==='ar')? 'en':'ar';
-  localStorage.setItem('impact_lang', LANG);
-  applyLang();
-  renderQuestion();
-});
-
-/* ======= تحميل الأسئلة من JSON المضمّن ======= */
-let QUESTIONS = [];
-let ANSWERS = {};
-let personaScores = {Analysis:0, Creative:0, PR:0, Reliable:0};
-let currentIndex = 0;
-let submissions = [];
-let latestPersona = null;
-
-async function tryLoadQuestions(){
-  const holder = document.getElementById('embedded-questions');
-  try{
-    const data = JSON.parse(holder.textContent);
-    if(Array.isArray(data) && data.length){ QUESTIONS = data; return; }
-  }catch(e){
-    console.warn('Embedded JSON parse error:', e);
-  }
-  QUESTIONS = [];
-}
-
-/* =================== عناصر الواجهة =================== */
-const qArea       = document.getElementById('questionArea');
-const qTitle      = document.getElementById('qTitle');
-const optionsWrap = document.getElementById('options');
-const progressWrap= document.getElementById('progressWrap');
-const progressBar = document.getElementById('progressBar');
-const stepText    = document.getElementById('stepText');
-
-/* شاشة الهيرو -> إظهار الفورم */
-document.getElementById('landingStartBtn').addEventListener('click', ()=>{
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('appContainer').style.display = 'block';
-  window.scrollTo({top:0, behavior:'smooth'});
-});
-
-/* بدء الاختبار من الفورم */
-document.getElementById('startBtn').addEventListener('click', ()=>{
-  const name = val('name'), email = val('email'), phone = val('phone');
-  if(!name || !email || !phone){
-    alert(STRINGS[LANG].mustUser);
-    return;
-  }
-  document.getElementById('userForm').style.display='none';
-  qArea.style.display='block';
-  progressWrap.style.display='block';
-  renderQuestion();
-});
-
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  if(currentIndex>0){ currentIndex--; renderQuestion(); }
-});
-document.getElementById('nextBtn').addEventListener('click', ()=>{
-  if(!ensureAnswered()) return;
-  if(currentIndex<QUESTIONS.length-1){ currentIndex++; renderQuestion(); }
-  else { finish(); }
-});
-document.getElementById('saveBtn').addEventListener('click', ()=>{
-  if(!ensureAnswered()) return;
-  if(currentIndex<QUESTIONS.length-1){ currentIndex++; renderQuestion(); }
-  else { finish(); }
-});
-
-function val(id){ return document.getElementById(id).value.trim(); }
-
-// اسم إنجليزي فقط (حروف + مسافة)
-const nameInput = document.getElementById('name');
-nameInput.addEventListener('input', function () {
-  this.value = this.value.replace(/[^A-Za-z\s]/g, '');
-});
-
-function renderQuestion(){
-  if(!QUESTIONS.length) return;
-  const q = QUESTIONS[currentIndex];
-  const S = STRINGS[LANG];
-  const text = (LANG==='ar')? q.ar.q : q.en.q;
-  const ops  = (LANG==='ar')? q.ar.options : q.en.options;
-
-  qTitle.textContent = text || (LANG==='ar'? `سؤال ${q.id}` : `Question ${q.id}`);
-  optionsWrap.innerHTML='';
-  ['A','B','C','D'].forEach(k=>{
-    if(!ops[k]) return;
-    const id=`q_${q.id}_${k}`;
-    const lab=document.createElement('label');
-    lab.className='option';
-    lab.htmlFor=id;
-    lab.innerHTML=`<input type="radio" name="q${q.id}" id="${id}" value="${k}" ${ANSWERS[q.id]===k?'checked':''}/> ${ops[k]}`;
-    optionsWrap.appendChild(lab);
-  });
-
-  const pct=Math.round((currentIndex/QUESTIONS.length)*100);
-  progressBar.style.width=pct+'%';
-  stepText.textContent = S.step(currentIndex+1, QUESTIONS.length);
-
-  document.getElementById('prevBtn').disabled=(currentIndex===0);
-  document.getElementById('nextBtn').textContent=(currentIndex===QUESTIONS.length-1)
-      ? (LANG==='ar'?'إنهاء':'Finish')
-      : S.next;
-  document.getElementById('saveBtn').textContent=(currentIndex===QUESTIONS.length-1)
-      ? (LANG==='ar'?'حفظ & إنهاء':'Save & Finish')
-      : S.saveNext;
-}
-
-function ensureAnswered(){
-  const q=QUESTIONS[currentIndex];
-  const selected=document.querySelector(`input[name="q${q.id}"]:checked`);
-  if(!selected){
-    alert(STRINGS[LANG].mustAnswer);
-    return false;
-  }
-  ANSWERS[q.id]=selected.value;
-  return true;
-}
-
-function computeScores(){
-  personaScores={Analysis:0, Creative:0, PR:0, Reliable:0};
-  let total=0;
-  QUESTIONS.forEach(q=>{
-    const a=ANSWERS[q.id]; if(!a) return;
-    const m=q.mapping[a] || {persona:'Reliable', weight:1};
-    personaScores[m.persona]+=m.weight; total+=m.weight;
-  });
-  return total || 1;
-}
-
-function finish(){
-  const total = computeScores();
-  let winner='Reliable', max=-1;
-  for(const k in personaScores){
-    if(personaScores[k]>max){ max=personaScores[k]; winner=k; }
-  }
-  latestPersona = winner;
-  const percent=Math.round((max/total)*100);
-
-  const S = STRINGS[LANG];
-  const res=document.getElementById('resultBox');
-  res.innerHTML = S.result(S.personas[winner], percent);
-  res.style.display='block';
-  document.getElementById('postActions').style.display='flex';
-
-  updateCertificate(winner);
-
-  const row={
-    name:val('name'), email:val('email'), phone:val('phone'),
-    persona:winner, percentage:percent,
-    answers:QUESTIONS.map(q=>ANSWERS[q.id]||'')
-  };
-  submissions.push(row);
-}
-
-/* تحديث محتوى الشهادة حسب الشخصية واللغة */
-function updateCertificate(persona){
-  const langSet = (CERT_TEXT[LANG] && CERT_TEXT[LANG][persona])
+    /* تحديث محتوى الشهادة حسب الشخصية واللغة */
+    function updateCertificate(persona) {
+      const langSet = (CERT_TEXT[LANG] && CERT_TEXT[LANG][persona])
         ? CERT_TEXT[LANG][persona]
         : CERT_TEXT['en'][persona];
 
-  document.getElementById('certHeader1').textContent = langSet.line1;
-  document.getElementById('certHeader2').textContent = langSet.line2;
-  document.getElementById('certRole').textContent   = langSet.role;
-  document.getElementById('certDesc').textContent   = langSet.desc;
-  document.getElementById('certName').textContent   = val('name');
+      document.getElementById('certHeader1').textContent = langSet.line1;
+      document.getElementById('certHeader2').textContent = langSet.line2;
+      document.getElementById('certRole').textContent = langSet.role;
+      document.getElementById('certDesc').textContent = langSet.desc;
+      document.getElementById('certName').textContent = val('name');
 
-  document.getElementById('certWrap').style.display='flex';
-}
+      document.getElementById('certWrap').style.display = 'flex';
+    }
 
-/* =================== CSV =================== */
-document.getElementById('downloadCSV').addEventListener('click', ()=>{
-  if(!submissions.length) return;
-  const qCols=QUESTIONS.map((q,i)=>`Q${i+1}`);
-  const headers=["Name","Email","Phone",...qCols,"Persona","Percentage"];
-  const rows=submissions.map(s=>[s.name,s.email,s.phone,...s.answers,s.persona, s.percentage+"%"]);
+    /* =================== CSV =================== */
+    document.getElementById('downloadCSV').addEventListener('click', () => {
+      if (!submissions.length) return;
+      const qCols = QUESTIONS.map((q, i) => `Q${i + 1}`);
+      const headers = ["Name", "Email", "Phone", ...qCols, "Persona", "Percentage"];
+      const rows = submissions.map(s => [s.name, s.email, s.phone, ...s.answers, s.persona, s.percentage + "%"]);
 
-  let csv=headers.join(",")+"\n";
-  rows.forEach(r=>{
-    csv += r.map(v=>`"${(v??'').toString().replace(/"/g,'""')}"`).join(",")+"\n";
-  });
+      let csv = headers.join(",") + "\n";
+      rows.forEach(r => {
+        csv += r.map(v => `"${(v ?? '').toString().replace(/"/g, '""')}"`).join(",") + "\n";
+      });
 
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download="impact_compass_results.csv";
-  document.body.appendChild(a); a.click(); a.remove();
-});
-
-/* ============== إعادة الاختبار – يرجع لشاشة البيانات ============== */
-document.getElementById('restartBtn').addEventListener('click', ()=>{
-  ANSWERS={};
-  personaScores={Analysis:0, Creative:0, PR:0, Reliable:0};
-  currentIndex=0;
-  latestPersona=null;
-
-  document.getElementById('resultBox').style.display='none';
-  document.getElementById('postActions').style.display='none';
-  document.getElementById('certWrap').style.display='none';
-  document.getElementById('questionArea').style.display='none';
-  document.getElementById('progressWrap').style.display='none';
-
-  document.getElementById('userForm').style.display='block';
-
-  document.getElementById('name').value='';
-  document.getElementById('email').value='';
-  document.getElementById('phone').value='';
-
-  window.scrollTo({top:0, behavior:'smooth'});
-});
-
-/* ============== طباعة/تحميل الشهادة (PDF أو فتح الصورة للطباعة) ============== */
-document.getElementById('certBtn').addEventListener('click', async () => {
-  const certWrap = document.getElementById('certWrap');
-  const cert     = document.getElementById('certificate');
-  const name     = (document.getElementById('name').value.trim() || 'certificate');
-
-  // تأكد إن الشهادة ظاهرة
-  if (!certWrap.style.display || certWrap.style.display === 'none') {
-    certWrap.style.display = 'flex';
-  }
-
-  // نخلي الشهادة في النص علشان تتصوّر كاملة
-  cert.scrollIntoView({ behavior: 'instant', block: 'center' });
-
-  // تأكد إن html2canvas موجودة
-  if (typeof html2canvas !== 'function') {
-    alert('html2canvas مش متحمّل، تأكد إن اتصال الإنترنت شغال.');
-    return;
-  }
-
-  try {
-    const canvas = await html2canvas(cert, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "impact_compass_results.csv";
+      document.body.appendChild(a); a.click(); a.remove();
     });
 
-    // لو jsPDF موجودة → نعمل PDF ونفتحه في Tab جديدة (أضمن من save مباشر)
-    if (window.jspdf && window.jspdf.jsPDF) {
-      const imgData = canvas.toDataURL('image/png');
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+    /* ============== إعادة الاختبار – يرجع لشاشة البيانات ============== */
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      ANSWERS = {};
+      personaScores = { Analysis: 0, Creative: 0, PR: 0, Reliable: 0 };
+      currentIndex = 0;
+      latestPersona = null;
 
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pageW * 0.95 / canvas.width, pageH * 0.95 / canvas.height);
-      const w = canvas.width * ratio;
-      const h = canvas.height * ratio;
-      const x = (pageW - w) / 2;
-      const y = (pageH - h) / 2;
+      document.getElementById('resultBox').style.display = 'none';
+      document.getElementById('postActions').style.display = 'none';
+      document.getElementById('certWrap').style.display = 'none';
+      document.getElementById('questionArea').style.display = 'none';
+      document.getElementById('progressWrap').style.display = 'none';
 
-      pdf.addImage(imgData, 'PNG', x, y, w, h);
+      document.getElementById('userForm').style.display = 'block';
 
-      const blobUrl = pdf.output('bloburl');
-      window.open(blobUrl, '_blank');
-    } else {
-      const dataUrl = canvas.toDataURL('image/png');
-      const win = window.open('', '_blank');
-      if (win) {
-        win.document.write(
-          '<html><head><title>' + name + '</title></head><body style="margin:0;">' +
-          '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block;" />' +
-          '</body></html>'
-        );
-        win.document.close();
-      } else {
-        alert('المتصفح منع فتح تبويب جديد، افتح الموقع من المتصفح مباشرة مش من داخل App.');
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ============== طباعة/تحميل الشهادة (PDF أو فتح الصورة للطباعة) ============== */
+    document.getElementById('certBtn').addEventListener('click', async () => {
+      const certWrap = document.getElementById('certWrap');
+      const cert = document.getElementById('certificate');
+      const name = (document.getElementById('name').value.trim() || 'certificate');
+
+      // تأكد إن الشهادة ظاهرة
+      if (!certWrap.style.display || certWrap.style.display === 'none') {
+        certWrap.style.display = 'flex';
       }
-    }
-  } catch (err) {
-    console.error('Export error:', err);
-    alert('حصل خطأ أثناء توليد الشهادة. جرّب من متصفح Chrome/Edge على اللابتوب.');
-  }
-});
 
-/* =================== Boot =================== */
-(async function init(){
-  await tryLoadQuestions();
-  applyLang();
-})();
-</script>
+      // نخلي الشهادة في النص علشان تتصوّر كاملة
+      cert.scrollIntoView({ behavior: 'instant', block: 'center' });
+
+      // تأكد إن html2canvas موجودة
+      if (typeof html2canvas !== 'function') {
+        alert('html2canvas مش متحمّل، تأكد إن اتصال الإنترنت شغال.');
+        return;
+      }
+
+      try {
+        const canvas = await html2canvas(cert, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false
+        });
+
+        // لو jsPDF موجودة → نعمل PDF ونفتحه في Tab جديدة (أضمن من save مباشر)
+        if (window.jspdf && window.jspdf.jsPDF) {
+          const imgData = canvas.toDataURL('image/png');
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+
+          const pageW = pdf.internal.pageSize.getWidth();
+          const pageH = pdf.internal.pageSize.getHeight();
+          const ratio = Math.min(pageW * 0.95 / canvas.width, pageH * 0.95 / canvas.height);
+          const w = canvas.width * ratio;
+          const h = canvas.height * ratio;
+          const x = (pageW - w) / 2;
+          const y = (pageH - h) / 2;
+
+          pdf.addImage(imgData, 'PNG', x, y, w, h);
+
+          const blobUrl = pdf.output('bloburl');
+          window.open(blobUrl, '_blank');
+        } else {
+          const dataUrl = canvas.toDataURL('image/png');
+          const win = window.open('', '_blank');
+          if (win) {
+            win.document.write(
+              '<html><head><title>' + name + '</title></head><body style="margin:0;">' +
+              '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block;" />' +
+              '</body></html>'
+            );
+            win.document.close();
+          } else {
+            alert('المتصفح منع فتح تبويب جديد، افتح الموقع من المتصفح مباشرة مش من داخل App.');
+          }
+        }
+      } catch (err) {
+        console.error('Export error:', err);
+        alert('حصل خطأ أثناء توليد الشهادة. جرّب من متصفح Chrome/Edge على اللابتوب.');
+      }
+    });
+
+    /* =================== Boot =================== */
+    (async function init() {
+      await tryLoadQuestions();
+      applyLang();
+    })();
+  </script>
 </body>
+
 </html>
