@@ -344,7 +344,7 @@
     <div class="grid-2">
       <div>
         <label id="lblName" for="name">الاسم الكامل</label>
-        <input type="text" id="name" placeholder="name" />
+        <input type="text" id="name" placeholder="name" inputmode="latin" autocomplete="off" />
       </div>
       <div>
         <label id="lblEmail" for="email">الإيميل</label>
@@ -627,7 +627,7 @@ const STRINGS = {
     step:(i,n)=>`السؤال ${i} من ${n}`,
     mustUser:"من فضلك اكتب الاسم والإيميل ورقم الجوال أولًا.",
     mustAnswer:"اختر إجابة قبل الانتقال للسؤال التالي.",
-    result:(persona,percent)=>`المسار الأقرب لك: <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
+    result:(persona,percent)=>`شخصيتك هي : <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
     downloadCSV:"تحميل ملف النتائج CSV",
     restart:"إعادة الاختبار",
     cert:"طباعة الشهادة",
@@ -829,6 +829,13 @@ document.getElementById('saveBtn').addEventListener('click', ()=>{
 });
 
 function val(id){ return document.getElementById(id).value.trim(); }
+
+// اسم إنجليزي فقط (حروف + مسافة)
+const nameInput = document.getElementById('name');
+nameInput.addEventListener('input', function () {
+  // يسمح فقط بحروف A-Z و a-z والمسافات
+  this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+});
 
 function renderQuestion(){
   if(!QUESTIONS.length) return;
