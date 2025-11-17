@@ -648,9 +648,9 @@ const STRINGS = {
     lblEmail:"Email",
     lblPhone:"Phone",
     start:"Start Quiz",
-    prev:"⟵ Previous",
+    prev:"Previous",
     saveNext:"Save & Next",
-    next:"Next ⟶",
+    next:"Next",
     step:(i,n)=>`Question ${i} of ${n}`,
     mustUser:"Please enter name, email, and phone first.",
     mustAnswer:"Please select an answer before moving on.",
@@ -965,41 +965,71 @@ document.getElementById('restartBtn').addEventListener('click', ()=>{
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
-/* ============== طباعة/تحميل الشهادة PDF (مع fallback PNG) ============== */
-document.getElementById('certBtn').addEventListener('click', async ()=>{
-  const cert=document.getElementById('certificate');
-  const fileName=(document.getElementById('name').value.trim() || 'certificate') + '.pdf';
+/* ============== طباعة/تحميل الشهادة (PDF أو فتح الصورة للطباعة) ============== */
+document.getElementById('certBtn').addEventListener('click', async () => {
+  const certWrap = document.getElementById('certWrap');
+  const cert     = document.getElementById('certificate');
+  const name     = (document.getElementById('name').value.trim() || 'certificate');
 
-  try{
-    const imgs=cert.querySelectorAll('img');
-    await Promise.all(Array.from(imgs).map(img=>{
-      if(img.complete) return Promise.resolve();
-      return new Promise(res=>{ img.onload=img.onerror=res; });
-    }));
+  // تأكد إن الشهادة ظاهرة
+  if (!certWrap.style.display || certWrap.style.display === 'none') {
+    certWrap.style.display = 'flex';
+  }
 
-    const canvas=await html2canvas(cert,{
-      scale:2, useCORS:true, allowTaint:true, backgroundColor:'#ffffff', logging:false
+  // نخلي الشهادة في النص علشان تتصوّر كاملة
+  cert.scrollIntoView({ behavior: 'instant', block: 'center' });
+
+  // تأكد إن html2canvas موجودة
+  if (typeof html2canvas !== 'function') {
+    alert('html2canvas مش متحمّل، تأكد إن اتصال الإنترنت شغال.');
+    return;
+  }
+
+  try {
+    const canvas = await html2canvas(cert, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
     });
-    const imgData=canvas.toDataURL('image/png');
 
-    const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
-    const pageW=pdf.internal.pageSize.getWidth();
-    const pageH=pdf.internal.pageSize.getHeight();
+    // لو jsPDF موجودة → نعمل PDF ونفتحه في Tab جديدة (أضمن من save مباشر)
+    if (window.jspdf && window.jspdf.jsPDF) {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
 
-    const ratio=Math.min(pageW*0.9/canvas.width, pageH*0.9/canvas.height);
-    const w=canvas.width*ratio, h=canvas.height*ratio;
-    const x=(pageW-w)/2, y=(pageH-h)/2;
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const ratio = Math.min(pageW * 0.95 / canvas.width, pageH * 0.95 / canvas.height);
+      const w = canvas.width * ratio;
+      const h = canvas.height * ratio;
+      const x = (pageW - w) / 2;
+      const y = (pageH - h) / 2;
 
-    pdf.addImage(imgData,'PNG',x,y,w,h);
-    pdf.save(fileName);
-  }catch(err){
-    console.error('PDF failed, fallback PNG:', err);
-    const pngCanvas=await html2canvas(cert,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#ffffff'});
-    const a=document.createElement('a');
-    a.href=pngCanvas.toDataURL('image/png');
-    a.download=(document.getElementById('name').value.trim() || 'certificate') + '.png';
-    document.body.appendChild(a); a.click(); a.remove();
+      pdf.addImage(imgData, 'PNG', x, y, w, h);
+
+      // بدل pdf.save (اللي ساعات بيتبلوك)، نفتحه في تبويب جديد والطباعة من هناك
+      const blobUrl = pdf.output('bloburl');
+      window.open(blobUrl, '_blank');
+    } else {
+      // لو jsPDF مش موجودة → نفتح الصورة في Tab جديدة علشان المستخدم يحفظ/يطبع بنفسه
+      const dataUrl = canvas.toDataURL('image/png');
+      const win = window.open('', '_blank');
+      if (win) {
+        win.document.write(
+          '<html><head><title>' + name + '</title></head><body style="margin:0;">' +
+          '<img src="' + dataUrl + '" style="width:100%;height:auto;display:block;" />' +
+          '</body></html>'
+        );
+        win.document.close();
+      } else {
+        alert('المتصفح منع فتح تبويب جديد، افتح الموقع من المتصفح مباشرة مش من داخل App.');
+      }
+    }
+  } catch (err) {
+    console.error('Export error:', err);
+    alert('حصل خطأ أثناء توليد الشهادة. جرّب من متصفح Chrome/Edge على اللابتوب.');
   }
 });
 
