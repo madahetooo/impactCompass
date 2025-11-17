@@ -983,11 +983,11 @@ document.getElementById('certBtn').addEventListener('click', async ()=>{
     const imgData=canvas.toDataURL('image/png');
 
     const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF({orientation:'landscape', unit:'pt', format:'a4'});
+    const pdf=new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
     const pageW=pdf.internal.pageSize.getWidth();
     const pageH=pdf.internal.pageSize.getHeight();
 
-    const ratio=Math.min(pageW*0.95/canvas.width, pageH*0.95/canvas.height);
+    const ratio=Math.min(pageW*0.9/canvas.width, pageH*0.9/canvas.height);
     const w=canvas.width*ratio, h=canvas.height*ratio;
     const x=(pageW-w)/2, y=(pageH-h)/2;
 
