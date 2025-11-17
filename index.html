@@ -536,7 +536,6 @@
         <div class="actions">
           <button class="btn ghost" id="prevBtn"> السابق</button>
           <div style="display:flex; gap:8px">
-            <button class="btn secondary" id="saveBtn">حفظ & التالي</button>
             <button class="btn" id="nextBtn">التالي</button>
           </div>
         </div>
@@ -778,18 +777,17 @@
         landingTitle: "دع الإلهام يقودك نحو الإبداع والأثر",
         landingSub: "جاوب على أسئلة بسيطة، واكتشف أسلوبك الخاص في صناعة الأثر مع فريق ون.",
         title: "🧭 بوصلة الأثر",
-        subtitle: "سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.",
+        subtitle: "دع الإلهام يقودك نحو الإبداع والأثر",
         lblName: "الاسم الكامل",
         lblEmail: "الإيميل",
         lblPhone: "رقم الجوال",
         start: "ابدأ الاختبار",
         prev: " السابق",
-        saveNext: "حفظ & التالي",
         next: "التالي",
         step: (i, n) => `السؤال ${i} من ${n}`,
         mustUser: "من فضلك اكتب الاسم والإيميل ورقم الجوال أولًا.",
         mustAnswer: "اختر إجابة قبل الانتقال للسؤال التالي.",
-        result: (persona, percent) => `شخصيتك هي : <b>${persona}</b> — نسبة التوافق: <b>${percent}%</b>`,
+        result: (persona, percent) => `شخصيتك هي : <b>${persona}</b>`,
         downloadCSV: "تحميل ملف النتائج CSV",
         restart: "إعادة الاختبار",
         cert: "طباعة الشهادة",
@@ -805,18 +803,17 @@
         landingTitle: "Let inspiration guide you toward Creativity & Impact",
         landingSub: "Answer a few questions and discover your unique impact style with Team One.",
         title: "🧭 Impact Compass",
-        subtitle: "Fill your details, then answer the questions one by one.",
+        subtitle: "Let inspiration guide you toward Creativity & Impact",
         lblName: "Full Name",
         lblEmail: "Email",
         lblPhone: "Phone",
         start: "Start Quiz",
         prev: "Previous",
-        saveNext: "Save & Next",
         next: "Next",
         step: (i, n) => `Question ${i} of ${n}`,
         mustUser: "Please enter name, email, and phone first.",
         mustAnswer: "Please select an answer before moving on.",
-        result: (persona, percent) => `Your best-fit track: <b>${persona}</b> — Match: <b>${percent}%</b>`,
+        result: (persona, percent) => `Your character is : <b>${persona}</b>`,
         downloadCSV: "Download CSV",
         restart: "Restart",
         cert: "Print Certificate",
@@ -909,7 +906,6 @@
 
       document.getElementById('startBtn').innerText = S.start;
       document.getElementById('prevBtn').innerText = S.prev;
-      document.getElementById('saveBtn').innerText = S.saveNext;
       document.getElementById('nextBtn').innerText = S.next;
       document.getElementById('downloadCSV').innerText = S.downloadCSV;
       document.getElementById('restartBtn').innerText = S.restart;
@@ -984,11 +980,7 @@
       if (currentIndex < QUESTIONS.length - 1) { currentIndex++; renderQuestion(); }
       else { finish(); }
     });
-    document.getElementById('saveBtn').addEventListener('click', () => {
-      if (!ensureAnswered()) return;
-      if (currentIndex < QUESTIONS.length - 1) { currentIndex++; renderQuestion(); }
-      else { finish(); }
-    });
+  
 
     function val(id) { return document.getElementById(id).value.trim(); }
 
@@ -1025,9 +1017,7 @@
       document.getElementById('nextBtn').textContent = (currentIndex === QUESTIONS.length - 1)
         ? (LANG === 'ar' ? 'إنهاء' : 'Finish')
         : S.next;
-      document.getElementById('saveBtn').textContent = (currentIndex === QUESTIONS.length - 1)
-        ? (LANG === 'ar' ? 'حفظ & إنهاء' : 'Save & Finish')
-        : S.saveNext;
+    
     }
 
     function ensureAnswered() {
