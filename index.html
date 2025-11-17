@@ -16,7 +16,41 @@
       --accent:#f58220;         /* برتقالي من الهوية */
       --text:#101318;
     }
+/* Regular */
+@font-face {
+  font-family: 'DINNextArabic';
+  src: url('fonts/ArbFONTS-DINNextLTArabic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
+/* Light */
+@font-face {
+  font-family: 'DINNextArabic';
+  src: url('fonts/ArbFONTS-DINNEXTLTARABIC-LIGHT.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold – نستخدم ملف واحد أوضح من ملفات OTF المتاحة */
+@font-face {
+  font-family: 'DINNextArabic';
+  src: url('fonts/DIN NEXT™️ ARABIC BOLD 2.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Heavy */
+@font-face {
+  font-family: 'DINNextArabic';
+  src: url('fonts/DIN NEXT™️ ARABIC HEAVY 2.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
     /* خط DIN (لو حابب تحطه في مجلد fonts) */
     @font-face{
       font-family:'DINNextArabic';
@@ -114,48 +148,57 @@
       background:rgba(0,0,0,0.75);
     }
 
-    /* الكونتينر الأساسي بعد الهيرو */
+    /* الكونتينر الأساسي بعد الهيرو – مكبّره عشان الفورم يبان */
     .container{
-      max-width:760px;
-      margin:32px auto 24px;
+      max-width:960px;
+      margin:80px auto 32px;
       background:#ffffff;
-      border-radius:18px;
-      box-shadow:0 18px 40px rgba(0,0,0,0.12);
-      padding:26px 22px 24px;
+      border-radius:26px;
+      box-shadow:0 30px 80px rgba(0,0,0,0.35);
+      padding:40px 36px 32px;
     }
 
     h1{
       margin:8px 0 4px;
       color:var(--primary);
       text-align:center;
-      font-size:24px;
+      font-size:26px;
     }
     .subtitle{
       text-align:center;
       color:#555;
-      margin-bottom:16px;
-      font-size:14px;
+      margin-bottom:20px;
+      font-size:15px;
     }
 
     .grid-2{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:12px;
+      gap:16px;
     }
 
-    label{display:block; margin-bottom:4px; font-size:14px}
+    /* كارد الفورم نفسه – أكبر وواضح */
+    #userForm{
+      background:var(--primary-soft);
+      border-radius:24px;
+      border:1px solid #d7dbe5;
+      padding:28px 24px 24px;
+      margin-top:8px;
+    }
+
+    label{display:block; margin-bottom:6px; font-size:15px}
     input[type="text"],
     input[type="email"],
     input[type="tel"]{
       width:100%;
-      padding:10px 12px;
+      padding:14px 16px;
       border:1px solid #d7dbe5;
       border-radius:999px;
-      font-size:15px;
+      font-size:16px;
     }
 
     .progress{
-      margin:18px 0 8px;
+      margin:24px 0 8px;
       height:10px;
       background:#e7ebf3;
       border-radius:999px;
@@ -199,19 +242,19 @@
       display:flex;
       gap:10px;
       justify-content:space-between;
-      margin-top:14px;
+      margin-top:18px;
       flex-wrap:wrap;
     }
     .btn{
       background:var(--primary);
       color:#fff;
       border:0;
-      padding:9px 18px;
+      padding:10px 20px;
       border-radius:999px;
       cursor:pointer;
       font-weight:800;
       font-size:14px;
-      min-width:120px;
+      min-width:130px;
       text-align:center;
     }
     .btn:disabled{opacity:.4; cursor:not-allowed}
@@ -302,7 +345,13 @@
     @media (max-width:600px){
       .landing-title{font-size:30px}
       .landing-sub{font-size:15px}
-      .container{margin-top:16px;border-radius:14px}
+      .container{
+        margin:60px 10px 24px;
+        padding:26px 18px 24px;
+      }
+      #userForm{
+        padding:22px 16px 18px;
+      }
       .certificate{padding:40px 30px}
       .cert-name{font-size:28px}
       .cert-header-highlight{font-size:22px}
@@ -351,11 +400,11 @@
         <input type="email" id="email" placeholder="example@email.com" />
       </div>
     </div>
-    <div style="margin-top:10px">
+    <div style="margin-top:14px">
       <label id="lblPhone" for="phone">رقم الجوال</label>
       <input type="tel" id="phone" placeholder="05xxxxxxxx" />
     </div>
-    <div class="actions" style="justify-content:flex-end; margin-top:8px">
+    <div class="actions" style="justify-content:flex-end; margin-top:16px">
       <button class="btn" id="startBtn">ابدأ الاختبار</button>
     </div>
   </section>
@@ -394,7 +443,6 @@
   <!-- شهادة HTML (مع خلفية وديزاين) -->
   <div id="certWrap" class="cert-wrap">
     <div id="certificate" class="certificate">
-      
       <img src="one-logo.png" alt="One Logo" class="cert-logo" />
       <div id="certHeader1" class="cert-header-line">
         Your Journey Toward Creativity and Impact
@@ -833,7 +881,6 @@ function val(id){ return document.getElementById(id).value.trim(); }
 // اسم إنجليزي فقط (حروف + مسافة)
 const nameInput = document.getElementById('name');
 nameInput.addEventListener('input', function () {
-  // يسمح فقط بحروف A-Z و a-z والمسافات
   this.value = this.value.replace(/[^A-Za-z\s]/g, '');
 });
 
@@ -1016,11 +1063,9 @@ document.getElementById('certBtn').addEventListener('click', async () => {
 
       pdf.addImage(imgData, 'PNG', x, y, w, h);
 
-      // بدل pdf.save (اللي ساعات بيتبلوك)، نفتحه في تبويب جديد والطباعة من هناك
       const blobUrl = pdf.output('bloburl');
       window.open(blobUrl, '_blank');
     } else {
-      // لو jsPDF مش موجودة → نفتح الصورة في Tab جديدة علشان المستخدم يحفظ/يطبع بنفسه
       const dataUrl = canvas.toDataURL('image/png');
       const win = window.open('', '_blank');
       if (win) {
@@ -1043,7 +1088,7 @@ document.getElementById('certBtn').addEventListener('click', async () => {
 /* =================== Boot =================== */
 (async function init(){
   await tryLoadQuestions();
-  applyLang();         // يطبّق اللغة على الهيرو وباقي الصفحات
+  applyLang();
 })();
 </script>
 </body>
