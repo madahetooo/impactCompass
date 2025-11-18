@@ -74,6 +74,11 @@
       line-height: 1.7;
     }
 
+    /* لما نكون في شاشة الأسئلة نضيف الخلفية الخاصة بها */
+    body.questions-bg {
+      background: url('questions-page-bg.jpeg') center center / cover no-repeat fixed;
+    }
+
     /* الشريط العلوي */
     .topbar {
       background: transparent;
@@ -99,7 +104,7 @@
     }
 
     .logos {
-      display: flex;
+      display: none; /* إخفاء لوجو ون من الـ landing */
       align-items: center;
       gap: 10px
     }
@@ -109,7 +114,7 @@
       object-fit: contain
     }
 
-    /* Landing Title Style */
+    /* Landing Title Style (كبير شوية) */
     .landing-title {
       font-family: 'DINNextArabic', sans-serif;
       font-size: 52px;
@@ -121,11 +126,11 @@
 
     .landing-sub {
       font-family: 'DINNextArabic', sans-serif;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 400;
       line-height: 1.55;
       color: #dce6eb;
-      max-width: 480px;
+      max-width: 520px;
       margin-bottom: 28px;
     }
 
@@ -167,18 +172,20 @@
     .landing-content {
       position: relative;
       z-index: 1;
-      max-width: 520px;
+      max-width: 600px;
+      text-align: left; /* دايماً من الشمال */
+      direction: ltr;   /* دايماً إنجليزي في الـ landing */
     }
 
     .landing-title {
-      font-size: 38px;
+      font-size: 52px;
       font-weight: 800;
       margin: 0 0 14px;
     }
 
     .landing-sub {
-      font-size: 18px;
-      max-width: 380px;
+      font-size: 20px;
+      max-width: 520px;
       margin-bottom: 24px;
     }
 
@@ -270,7 +277,7 @@
     }
 
     .card {
-      background: var(--primary-soft);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 16px;
       padding: 18px 16px 16px;
       border: 1px solid #dde2f0;
@@ -361,7 +368,7 @@
       font-size: 13px;
     }
 
-    /* شهادة */
+    /* شهادة – تصميم جديد شبيه بالصورة */
     .cert-wrap {
       width: 100%;
       display: none;
@@ -369,58 +376,80 @@
       margin-top: 20px;
       padding: 32px 10px;
       border-radius: 20px;
-      background: url('certificate-bg-4.jpg') center center / cover no-repeat;
+      background: transparent;
     }
 
     .certificate {
       width: 100%;
-      max-width: 900px;
-      aspect-ratio: 1.414/1;
-      border-radius: 20px;
-      background: url('certificate-3.jpg') center center / cover no-repeat;
+      max-width: 500px;
+      aspect-ratio: 476/672; /* قريب من تصميم الشهادة المرفقة */
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 80px 10% 60px;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 52px 40px 40px;
       color: #102331;
       gap: 10px;
+      text-align: center;
+      direction: ltr; /* الشهادة دايماً إنجليزي */
+      position: relative;
+      overflow: hidden;
     }
 
     .cert-logo {
-      height: 56px;
-      margin-bottom: 8px;
+      height: 52px;
+      margin-bottom: 12px;
     }
 
     .cert-header-line {
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 16px;
+      font-weight: 400;
+      color: #222b38;
     }
 
     .cert-header-highlight {
-      font-size: 26px;
-      font-weight: 900;
-      color: #b01818;
-      margin-bottom: 18px;
-    }
-
-    .cert-name {
-      font-size: 36px;
-      font-weight: 900;
-      margin: 8px 0 4px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #5a1430;
+      margin-bottom: 24px;
     }
 
     .cert-role {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
-      color: #e4572e;
-      margin-bottom: 10px;
+      color: #e64c2b;
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .cert-name {
+      font-size: 26px;
+      font-weight: 900;
+      margin: 0 0 18px;
+      color: #151a21;
     }
 
     .cert-desc {
-      max-width: 540px;
-      font-size: 16px;
+      max-width: 360px;
+      font-size: 14px;
       line-height: 1.8;
+      color: #49515c;
+      margin-bottom: 40px;
+    }
+
+    /* أشكال أسفل الشهادة – تقدر تغير الصورة دي حسب ما عندك */
+    .certificate::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 110px;
+      background: url('certificate-footer-shapes.png') center bottom / contain no-repeat;
+      pointer-events: none;
     }
 
     .rtl {
@@ -457,11 +486,11 @@
 
     @media (max-width:600px) {
       .landing-title {
-        font-size: 30px
+        font-size: 34px
       }
 
       .landing-sub {
-        font-size: 15px
+        font-size: 16px
       }
 
       .container {
@@ -474,15 +503,15 @@
       }
 
       .certificate {
-        padding: 40px 30px
+        padding: 40px 24px 32px;
       }
 
       .cert-name {
-        font-size: 28px
+        font-size: 22px
       }
 
       .cert-header-highlight {
-        font-size: 22px
+        font-size: 16px
       }
     }
   </style>
@@ -504,12 +533,11 @@
   <section id="landing" class="landing">
     <div class="landing-content">
       <h2 id="landingTitle" class="landing-title">
-        Let inspiration<br>
-        Guide you toward<br>
-        <span class="highlight">Creativity & Impact</span>
+        Find your direction.<br>
+        Create your impact.
       </h2>
       <p id="landingSub" class="landing-sub">
-        Answer a few simple questions and discover your unique impact style with فريق ون.
+        Answer a few simple questions and discover your unique impact style with Team One.
       </p>
       <button id="landingStartBtn" class="landing-btn">START</button>
     </div>
@@ -518,26 +546,26 @@
   <!-- المحتوى الرئيسي -->
   <main id="appContainer" class="container" style="display:none">
     <h1 id="title">🧭 بوصلة الأثر</h1>
-    <div id="subtitle" class="subtitle">سجّل بياناتك، ثم أجب على الأسئلة بالتتابع.</div>
+    <div id="subtitle" class="subtitle">Find your direction. Create your impact</div>
 
     <!-- صفحة البيانات -->
     <section id="userForm">
       <div class="grid-2">
         <div>
-          <label id="lblName" for="name">الاسم الكامل</label>
+          <label id="lblName" for="name">Full Name</label>
           <input type="text" id="name" placeholder="name" inputmode="latin" autocomplete="off" />
         </div>
         <div>
-          <label id="lblEmail" for="email">الإيميل</label>
+          <label id="lblEmail" for="email">Email</label>
           <input type="email" id="email" placeholder="example@email.com" />
         </div>
       </div>
       <div style="margin-top:14px">
-        <label id="lblPhone" for="phone">رقم الجوال</label>
+        <label id="lblPhone" for="phone">Phone</label>
         <input type="tel" id="phone" placeholder="05xxxxxxxx" />
       </div>
       <div class="actions" style="justify-content:flex-end; margin-top:16px">
-        <button class="btn" id="startBtn">start test</button>
+        <button class="btn" id="startBtn">Start Quiz</button>
       </div>
     </section>
 
@@ -566,7 +594,6 @@
 
     <!-- أزرار ما بعد النتيجة -->
     <div id="postActions" class="actions" style="display:none; justify-content:center">
-      <!-- تم حذف زرار CSV من هنا -->
       <button class="btn secondary" id="restartBtn">إعادة الاختبار</button>
       <button class="btn ghost" id="certBtn">طباعة الشهادة</button>
     </div>
@@ -576,14 +603,15 @@
       <div id="certificate" class="certificate">
         <img src="one-logo-colorful.png" alt="One Logo" class="cert-logo" />
         <div id="certHeader1" class="cert-header-line">
-          Your Journey Toward Creativity and Impact
+          Your Journey Toward inspiration and Impact
         </div>
         <div id="certHeader2" class="cert-header-line cert-header-highlight">
           Begins with Discovering Yourself
         </div>
 
+        <div id="certRole" class="cert-role">The Creative</div>
         <div id="certName" class="cert-name">Participant Name</div>
-        <div id="certRole" class="cert-role">You are a Creative</div>
+
         <p id="certDesc" class="cert-desc">
           You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater
           influence.
@@ -849,34 +877,35 @@
       }
     };
 
+    /* نصوص الشهادة – الشهادة دايماً إنجليزي */
     const CERT_TEXT = {
-      /* نفس كود CERT_TEXT اللي عندك بدون تغيير */
       en: {
         Creative: {
-          line1: "Your Journey Toward Creativity and Impact",
+          line1: "Your Journey Toward inspiration and Impact",
           line2: "Begins with Discovering Yourself",
-          role: "You are a Creative",
+          role: "The Creative",
           desc: "You craft ideas, innovate solutions, and your skills pave the way for new opportunities and a greater influence."
         },
         Analysis: {
-          line1: "Your Journey Toward Creativity and Impact",
+          line1: "Your Journey Toward inspiration and Impact",
           line2: "Begins with Discovering Yourself",
-          role: "You Are a Thinker",
+          role: "The Thinker",
           desc: "You plan, shape strategies, and your skills pave the way for new opportunities and a greater influence."
         },
         Reliable: {
-          line1: "Your Journey Toward Creativity and Impact",
+          line1: "Your Journey Toward inspiration and Impact",
           line2: "Begins with Discovering Yourself",
-          role: "You Are an Achiever",
+          role: "The Achiever",
           desc: "You turn ideas into tangible reality, and your skills pave the way for new opportunities and a greater influence."
         },
         PR: {
-          line1: "Your Journey Toward Creativity and Impact",
+          line1: "Your Journey Toward inspiration and Impact",
           line2: "Begins with Discovering Yourself",
-          role: "You Are a Speaker",
+          role: "The Speaker",
           desc: "You deliver messages and inspire audiences, and your skills pave the way for new opportunities and a greater influence."
         }
       },
+      /* مخلي العربي زي ما هو لو حبيت تستخدمه بعدين */
       ar: {
         Creative: {
           line1: "رحلتك نحو الإبداع والأثر",
@@ -914,10 +943,10 @@
       document.documentElement.classList.toggle('rtl', LANG === 'ar');
       document.documentElement.classList.toggle('ltr', LANG === 'en');
 
-      // الهيرو
+      // الهيرو (النصوص دايماً إنجليزي لكن بنحدّث من STRINGS)
       document.getElementById('landingTitle').textContent = S.landingTitle;
       document.getElementById('landingSub').textContent = S.landingSub;
-      document.getElementById('landingStartBtn').textContent = (LANG === 'ar' ? 'START' : 'START');
+      document.getElementById('landingStartBtn').textContent = 'START';
 
       // العناوين
       document.getElementById('title').innerText = S.title;
@@ -929,7 +958,6 @@
       document.getElementById('startBtn').innerText = S.start;
       document.getElementById('prevBtn').innerText = S.prev;
       document.getElementById('nextBtn').innerText = S.next;
-      // downloadCSV دلوقتي أيقونة بس، مش محتاجين نغير التكيست
       document.getElementById('restartBtn').innerText = S.restart;
       document.getElementById('certBtn').innerText = S.cert;
 
@@ -987,6 +1015,10 @@
       document.getElementById('userForm').style.display = 'none';
       qArea.style.display = 'block';
       progressWrap.style.display = 'block';
+
+      // نضيف خلفية صفحة الأسئلة
+      document.body.classList.add('questions-bg');
+
       renderQuestion();
     });
 
@@ -1085,10 +1117,9 @@
       submissions.push(row);
     }
 
+    /* تحديث محتوى الشهادة – دايماً إنجليزي وبنفس التصميم */
     function updateCertificate(persona) {
-      const langSet = (CERT_TEXT[LANG] && CERT_TEXT[LANG][persona])
-        ? CERT_TEXT[LANG][persona]
-        : CERT_TEXT['en'][persona];
+      const langSet = CERT_TEXT['en'][persona] || CERT_TEXT['en'].Creative;
 
       document.getElementById('certHeader1').textContent = langSet.line1;
       document.getElementById('certHeader2').textContent = langSet.line2;
@@ -1131,6 +1162,9 @@
       document.getElementById('questionArea').style.display = 'none';
       document.getElementById('progressWrap').style.display = 'none';
 
+      // إزالة خلفية صفحة الأسئلة
+      document.body.classList.remove('questions-bg');
+
       // نخفي الكونتينر ونرجّع شاشة اللاندنج
       document.getElementById('appContainer').style.display = 'none';
       document.getElementById('landing').style.display = 'flex';
@@ -1172,11 +1206,11 @@
         if (window.jspdf && window.jspdf.jsPDF) {
           const imgData = canvas.toDataURL('image/png');
           const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+          const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
 
           const pageW = pdf.internal.pageSize.getWidth();
           const pageH = pdf.internal.pageSize.getHeight();
-          const ratio = Math.min(pageW * 0.95 / canvas.width, pageH * 0.95 / canvas.height);
+          const ratio = Math.min(pageW * 0.9 / canvas.width, pageH * 0.9 / canvas.height);
           const w = canvas.width * ratio;
           const h = canvas.height * ratio;
           const x = (pageW - w) / 2;
