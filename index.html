@@ -1187,7 +1187,8 @@
         if (window.jspdf && window.jspdf.jsPDF) {
           const imgData = canvas.toDataURL('image/png');
           const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+// 👇 خلي الفورمات A5 بدل A4
+const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a5' });
 
           const pageW = pdf.internal.pageSize.getWidth();
           const pageH = pdf.internal.pageSize.getHeight();
