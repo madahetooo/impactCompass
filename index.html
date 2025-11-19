@@ -1103,6 +1103,9 @@
         persona: winner, percentage: percent,
         answers: QUESTIONS.map(q => ANSWERS[q.id] || '')
       };
+      let saved = JSON.parse(localStorage.getItem("impact_data") || "[]");
+saved.push(row);
+localStorage.setItem("impact_data", JSON.stringify(saved));
       submissions.push(row);
     }
 
@@ -1226,6 +1229,7 @@ pdf.addImage(imgData, 'PNG', x, y, w, h);
     });
 
     (async function init() {
+    submissions = JSON.parse(localStorage.getItem("impact_data") || "[]");
       await tryLoadQuestions();
       applyLang();
     })();
