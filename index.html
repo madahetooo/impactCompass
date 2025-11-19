@@ -1190,15 +1190,17 @@
 // 👇 خلي الفورمات A5 بدل A4
 const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a5' });
 
-          const pageW = pdf.internal.pageSize.getWidth();
-          const pageH = pdf.internal.pageSize.getHeight();
-          const ratio = Math.min(pageW * 0.9 / canvas.width, pageH * 0.9 / canvas.height);
-          const w = canvas.width * ratio;
-          const h = canvas.height * ratio;
-          const x = (pageW - w) / 2;
-          const y = (pageH - h) / 2;
+     const pageW = pdf.internal.pageSize.getWidth();
+const pageH = pdf.internal.pageSize.getHeight();
 
-          pdf.addImage(imgData, 'PNG', x, y, w, h);
+// نملأ ارتفاع صفحة الـ A5 بالكامل
+const ratio = pageH / canvas.height;
+const w = canvas.width * ratio;
+const h = pageH;
+const x = (pageW - w) / 2;
+const y = 0;
+
+pdf.addImage(imgData, 'PNG', x, y, w, h);
 
           const blobUrl = pdf.output('bloburl');
           window.open(blobUrl, '_blank');
